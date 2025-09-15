@@ -6,11 +6,11 @@
   <title>Sahil Puri | Portfolio</title>
   <style>
     :root {
-      --light: #DAD7CD;
-      --soft: #A3B18A;
-      --highlight: #588157;
-      --deep: #3A5A40;
-      --dark: #344E41;
+      --dark: #2b2d42;
+      --grey: #8d99ae;
+      --light: #edf2f4;
+      --bright-red: #ef233c;
+      --deep-red: #d90429;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -22,16 +22,16 @@
     header {
       text-align: center;
       padding: 60px 20px;
-      background: linear-gradient(135deg, var(--dark), var(--deep));
+      background: linear-gradient(135deg, var(--dark), #1a1b2e);
     }
     header h1 {
       font-size: 2.5em;
-      color: var(--highlight);
+      color: var(--bright-red);
       margin-bottom: 10px;
     }
     header p {
       font-size: 1.2em;
-      color: var(--soft);
+      color: var(--grey);
     }
     .container {
       max-width: 1000px;
@@ -39,9 +39,9 @@
       padding: 0 20px;
     }
     h2 {
-      color: var(--highlight);
+      color: var(--bright-red);
       margin-bottom: 20px;
-      border-bottom: 2px solid var(--deep);
+      border-bottom: 2px solid var(--grey);
       padding-bottom: 5px;
     }
     .projects {
@@ -50,14 +50,15 @@
       gap: 20px;
     }
     .card {
-      background: var(--deep);
-      border: 1px solid var(--soft);
+      background: #1f2133;
+      border: 1px solid var(--grey);
       border-radius: 10px;
       overflow: hidden;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
     .card img {
       width: 100%;
@@ -72,27 +73,33 @@
     }
     .card-content p {
       font-size: 0.95em;
-      color: var(--light);
+      color: var(--grey);
     }
     .card-content a {
       display: inline-block;
       margin-top: 10px;
-      color: var(--highlight);
+      color: var(--bright-red);
       text-decoration: none;
       font-weight: bold;
+    }
+    .card-content a:hover {
+      color: var(--deep-red);
     }
     footer {
       text-align: center;
       padding: 30px;
-      background: var(--deep);
+      background: #1f2133;
       margin-top: 40px;
-      color: var(--soft);
+      color: var(--grey);
     }
     footer a {
-      color: var(--highlight);
+      color: var(--bright-red);
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+    }
+    footer a:hover {
+      color: var(--deep-red);
     }
   </style>
 </head>
@@ -128,20 +135,4 @@
         <img src="media/ssao-vs-hbao.png" alt="SSAO vs HBAO">
         <div class="card-content">
           <h3>SSAO vs HBAO Study</h3>
-          <p>Comparison of SSAO, HBAO, and Alchemy SSAO with performance benchmarks.</p>
-          <a href="https://github.com/sahilpuri22/ssao-hbao-study">View Repo →</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>📫 Connect with me:</p>
-    <p>
-      <a href="mailto:youremail@example.com">Email</a> · 
-      <a href="https://linkedin.com/in/yourprofile">LinkedIn</a> · 
-      <a href="https://github.com/sahilpuri22">GitHub</a>
-    </p>
-  </footer>
-</body>
-</html>
+          <p>Comparison of SSA
