@@ -5,26 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sahil Puri | Portfolio</title>
   <style>
+    :root {
+      --light: #DAD7CD;
+      --soft: #A3B18A;
+      --highlight: #588157;
+      --deep: #3A5A40;
+      --dark: #344E41;
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0;
-      background: #0d1117;
-      color: #e6edf3;
+      background: var(--dark);
+      color: var(--light);
       line-height: 1.6;
     }
     header {
       text-align: center;
       padding: 60px 20px;
-      background: linear-gradient(135deg, #0d1117, #161b22);
+      background: linear-gradient(135deg, var(--dark), var(--deep));
     }
     header h1 {
       font-size: 2.5em;
-      color: #58a6ff;
+      color: var(--highlight);
       margin-bottom: 10px;
     }
     header p {
       font-size: 1.2em;
-      color: #8b949e;
+      color: var(--soft);
     }
     .container {
       max-width: 1000px;
@@ -32,9 +39,9 @@
       padding: 0 20px;
     }
     h2 {
-      color: #58a6ff;
+      color: var(--highlight);
       margin-bottom: 20px;
-      border-bottom: 2px solid #21262d;
+      border-bottom: 2px solid var(--deep);
       padding-bottom: 5px;
     }
     .projects {
@@ -43,8 +50,8 @@
       gap: 20px;
     }
     .card {
-      background: #161b22;
-      border: 1px solid #30363d;
+      background: var(--deep);
+      border: 1px solid var(--soft);
       border-radius: 10px;
       overflow: hidden;
       transition: transform 0.2s;
@@ -61,29 +68,31 @@
     }
     .card-content h3 {
       margin: 0 0 10px;
-      color: #58a6ff;
+      color: var(--light);
     }
     .card-content p {
       font-size: 0.95em;
-      color: #c9d1d9;
+      color: var(--light);
     }
     .card-content a {
       display: inline-block;
       margin-top: 10px;
-      color: #58a6ff;
+      color: var(--highlight);
       text-decoration: none;
+      font-weight: bold;
     }
     footer {
       text-align: center;
       padding: 30px;
-      background: #161b22;
+      background: var(--deep);
       margin-top: 40px;
-      color: #8b949e;
+      color: var(--soft);
     }
     footer a {
-      color: #58a6ff;
+      color: var(--highlight);
       margin: 0 10px;
       text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
