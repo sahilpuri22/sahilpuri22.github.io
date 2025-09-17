@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Sahil Puri | Portfolio</title>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Sahil Puri | Home</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
@@ -11,7 +10,8 @@
     <div class="nav-inner">
       <a class="brand" href="index.html">Sahil Puri</a>
       <div class="tabs">
-        <a class="tab active" href="index.html">Projects</a>
+        <a class="tab" href="index.html">Home</a>
+        <a class="tab" href="projects.html">Projects</a>
         <a class="tab" href="about.html">About</a>
         <a class="tab" href="contact.html">Contact</a>
       </div>
@@ -20,27 +20,31 @@
 
   <header class="header">
     <h1>Graphics & Gameplay Engineer</h1>
-    <p>Vulkan · Jolt Physics · Real-time rendering · Shaders</p>
+    <p>Vulkan · Real-time Rendering · Jolt Physics · Shaders</p>
+    <p style="margin-top:18px;">
+      <a class="tab" href="projects.html" style="display:inline-block">View Projects →</a>
+      <a class="tab" href="contact.html" style="display:inline-block">Contact</a>
+    </p>
   </header>
 
   <main class="container">
-    <h2 class="section-title">Featured Projects</h2>
+    <h2 class="section-title">Highlights</h2>
     <section class="grid">
       <article class="card">
-        <img src="media/vulkan-engine.gif" alt="Vulkan Engine screenshot">
+        <img src="media/vulkan-engine.gif" alt="Vulkan Engine">
         <div class="card-body">
           <h3>Vulkan Engine</h3>
-          <p>Deferred renderer with SSAO/HBAO, post-FX, ImGui debug tools.</p>
-          <p><a href="https://github.com/sahilpuri22/vulkan-engine">View Repo →</a></p>
+          <p>Deferred renderer (G-buffer), SSAO/HBAO, post-FX, ImGui tools.</p>
+          <p><a href="https://github.com/sahilpuri22/vulkan-engine">Repo →</a></p>
         </div>
       </article>
 
       <article class="card">
-        <img src="media/jolt-car.gif" alt="Vehicle physics demo">
+        <img src="media/jolt-car.gif" alt="Jolt Vehicle Physics">
         <div class="card-body">
           <h3>Vehicle Physics (Jolt)</h3>
-          <p>Drift model, chase camera with collision raycasts.</p>
-          <p><a href="https://github.com/sahilpuri22/vehicle-physics">View Repo →</a></p>
+          <p>Drift model, chase camera with collision raycasts & boost tuning.</p>
+          <p><a href="https://github.com/sahilpuri22/vehicle-physics">Repo →</a></p>
         </div>
       </article>
 
@@ -48,16 +52,25 @@
         <img src="media/ssao-vs-hbao.png" alt="SSAO vs HBAO">
         <div class="card-body">
           <h3>SSAO vs HBAO Study</h3>
-          <p>Quality/perf comparison incl. Alchemy SSAO.</p>
-          <p><a href="https://github.com/sahilpuri22/ssao-hbao-study">View Repo →</a></p>
+          <p>Quality/perf comparisons incl. Alchemy SSAO; side-by-side toggle.</p>
+          <p><a href="https://github.com/sahilpuri22/ssao-hbao-study">Repo →</a></p>
         </div>
       </article>
     </section>
+
+    <h2 class="section-title" style="margin-top:34px;">Tooling & Focus</h2>
+    <p> C++20 · GLSL/HLSL · Vulkan (frame graph, G-buffer, post-processing) · Jolt VehicleConstraint · ImGui profiling · asset baking pipelines. </p>
   </main>
 
-  <footer class="footer">
-    © <span id="y"></span> Sahil Puri · <a href="contact.html">Get in touch</a>
-  </footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+  <footer class="footer">© <span id="y"></span> Sahil Puri · <a href="projects.html">Projects</a></footer>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    // Auto-highlight the active tab
+    const here = location.pathname.split('/').pop() || 'index.html';
+    [...document.querySelectorAll('.tab')].forEach(a=>{
+      const file = a.getAttribute('href');
+      if ((here === '' && file === 'index.html') || file === here) a.classList.add('active');
+    });
+  </script>
 </body>
 </html>

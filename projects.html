@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Projects | Sahil Puri</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Sahil Puri</a>
+      <div class="tabs">
+        <a class="tab" href="index.html">Home</a>
+        <a class="tab" href="projects.html">Projects</a>
+        <a class="tab" href="about.html">About</a>
+        <a class="tab" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="header">
+    <h1>Projects</h1>
+    <p>Selected work in rendering, physics, and tools.</p>
+  </header>
+
+  <main class="container">
+    <h2 class="section-title">All Projects</h2>
+    <section class="grid">
+      <!-- Add/duplicate cards as you like -->
+      <article class="card">
+        <img src="media/vulkan-engine.gif" alt="Vulkan Engine">
+        <div class="card-body">
+          <h3>Vulkan Engine</h3>
+          <p>Deferred renderer (G-buffer), SSAO/HBAO, post-FX, ImGui tools.</p>
+          <p><a href="https://github.com/sahilpuri22/vulkan-engine">Repo →</a></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="media/jolt-car.gif" alt="Vehicle Physics">
+        <div class="card-body">
+          <h3>Vehicle Physics (Jolt)</h3>
+          <p>Drift model, chase camera collision, boost behavior.</p>
+          <p><a href="https://github.com/sahilpuri22/vehicle-physics">Repo →</a></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="media/ssao-vs-hbao.png" alt="SSAO vs HBAO Study">
+        <div class="card-body">
+          <h3>SSAO vs HBAO Study</h3>
+          <p>Quality/perf comparison incl. Alchemy SSAO; side-by-side toggle.</p>
+          <p><a href="https://github.com/sahilpuri22/ssao-hbao-study">Repo →</a></p>
+        </div>
+      </article>
+
+      <!-- Example extra slots -->
+      <article class="card">
+        <img src="media/asset-pipeline.png" alt="Asset pipeline">
+        <div class="card-body">
+          <h3>Asset Baking Tool</h3>
+          <p>OBJ→baked format, texture packaging, CLI pipeline.</p>
+          <p><a href="https://github.com/sahilpuri22/asset-pipeline">Repo →</a></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="media/shader-gallery.png" alt="Shader gallery">
+        <div class="card-body">
+          <h3>Shader Gallery</h3>
+          <p>GLSL snippets with visual results and notes.</p>
+          <p><a href="https://github.com/sahilpuri22/shader-gallery">Repo →</a></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="media/gmtk-game.gif" alt="GMTK game">
+        <div class="card-body">
+          <h3>GMTK Jam: Crash Landing</h3>
+          <p>Small polished game; systems + visuals + performance passes.</p>
+          <p><a href="https://itch.io">itch.io →</a></p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">© <span id="y"></span> Sahil Puri</footer>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const here = location.pathname.split('/').pop();
+    [...document.querySelectorAll('.tab')].forEach(a=>{
+      if (a.getAttribute('href') === (here || 'index.html')) a.classList.add('active');
+    });
+  </script>
+</body>
+</html>
