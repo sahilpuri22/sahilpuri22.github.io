@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>About | Sahil Puri</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Sahil Puri</a>
+      <div class="tabs">
+        <a class="tab" href="index.html">Projects</a>
+        <a class="tab active" href="about.html">About</a>
+        <a class="tab" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="header">
+    <h1>About</h1>
+    <p>Graphics & gameplay engineer focused on real-time rendering and physics.</p>
+  </header>
+
+  <main class="container">
+    <h2 class="section-title">Bio</h2>
+    <p>
+      I build rendering tech (Vulkan/OpenGL), shader tooling, and gameplay systems.
+      Recent work: deferred renderer with SSAO/HBAO comparisons, Jolt-based vehicle dynamics,
+      asset baking pipelines, and performance profiling with ImGui overlays.
+    </p>
+
+    <h2 class="section-title">Skills</h2>
+    <ul>
+      <li>C++20, GLSL/HLSL, Python tooling</li>
+      <li>Vulkan (frame graph, G-buffer, post-processing)</li>
+      <li>Physics: Jolt VehicleConstraint, camera collision</li>
+      <li>Debug/UX: ImGui, profiling, CI</li>
+    </ul>
+
+    <h2 class="section-title">Talks & Writing</h2>
+    <ul>
+      <li>EASI-Tex reading group: image-conditioned texturing (IP-Adapter/ControlNet)</li>
+    </ul>
+  </main>
+
+  <footer class="footer">© <span id="y"></span> Sahil Puri</footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</body>
+</html>

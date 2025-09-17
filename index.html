@@ -1,154 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Sahil Puri | Portfolio</title>
-  <style>
-    :root {
-      --dark: #22223b;
-      --slate: #4a4e69;
-      --mauve: #9a8c98;
-      --rose: #c9ada7;
-      --cream: #f2e9e4;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      margin: 0;
-      background: var(--dark);
-      color: var(--cream);
-      line-height: 1.6;
-    }
-    header {
-      text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, var(--dark), var(--slate));
-    }
-    header h1 {
-      font-size: 2.5em;
-      color: var(--rose);
-      margin-bottom: 10px;
-    }
-    header p {
-      font-size: 1.2em;
-      color: var(--mauve);
-    }
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    h2 {
-      color: var(--rose);
-      margin-bottom: 20px;
-      border-bottom: 2px solid var(--slate);
-      padding-bottom: 5px;
-    }
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: var(--slate);
-      border: 1px solid var(--mauve);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    .card img {
-      width: 100%;
-      display: block;
-    }
-    .card-content {
-      padding: 15px;
-    }
-    .card-content h3 {
-      margin: 0 0 10px;
-      color: var(--cream);
-    }
-    .card-content p {
-      font-size: 0.95em;
-      color: var(--mauve);
-    }
-    .card-content a {
-      display: inline-block;
-      margin-top: 10px;
-      color: var(--rose);
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .card-content a:hover {
-      color: var(--cream);
-    }
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: var(--slate);
-      margin-top: 40px;
-      color: var(--mauve);
-    }
-    footer a {
-      color: var(--rose);
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    footer a:hover {
-      color: var(--cream);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header>
-    <h1>Hi, I'm Sahil!</h1>
-    <p>Graphics & Gameplay Engineer · Vulkan · Jolt Physics · Shaders</p>
-  </header>
-
-  <div class="container">
-    <h2>Featured Projects</h2>
-    <div class="projects">
-      <!-- Project 1 -->
-      <div class="card">
-        <img src="media/vulkan-engine.gif" alt="Vulkan Engine screenshot">
-        <div class="card-content">
-          <h3>Vulkan Engine</h3>
-          <p>Deferred renderer with SSAO/HBAO, post-processing, ImGui debug tools.</p>
-          <a href="https://github.com/sahilpuri22/vulkan-engine">View Repo →</a>
-        </div>
-      </div>
-      <!-- Project 2 -->
-      <div class="card">
-        <img src="media/jolt-car.gif" alt="Vehicle Physics demo">
-        <div class="card-content">
-          <h3>Vehicle Physics (Jolt)</h3>
-          <p>Car drift mechanics, chase camera with collision detection.</p>
-          <a href="https://github.com/sahilpuri22/vehicle-physics">View Repo →</a>
-        </div>
-      </div>
-      <!-- Project 3 -->
-      <div class="card">
-        <img src="media/ssao-vs-hbao.png" alt="SSAO vs HBAO">
-        <div class="card-content">
-          <h3>SSAO vs HBAO Study</h3>
-          <p>Comparison of SSAO, HBAO, and Alchemy SSAO with performance benchmarks.</p>
-          <a href="https://github.com/sahilpuri22/ssao-hbao-study">View Repo →</a>
-        </div>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Sahil Puri</a>
+      <div class="tabs">
+        <a class="tab active" href="index.html">Projects</a>
+        <a class="tab" href="about.html">About</a>
+        <a class="tab" href="contact.html">Contact</a>
       </div>
     </div>
-  </div>
+  </nav>
 
-  <footer>
-    <p>📫 Connect with me:</p>
-    <p>
-      <a href="mailto:sahilpuri.5@gmail.com">Email</a> · 
-      <a href="https://www.linkedin.com/in/sahil-puri-90b13b228/">LinkedIn</a> · 
-      <a href="https://github.com/sahilpuri22">GitHub</a>
-    </p>
+  <header class="header">
+    <h1>Graphics & Gameplay Engineer</h1>
+    <p>Vulkan · Jolt Physics · Real-time rendering · Shaders</p>
+  </header>
+
+  <main class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    <section class="grid">
+      <article class="card">
+        <img src="media/vulkan-engine.gif" alt="Vulkan Engine screenshot">
+        <div class="card-body">
+          <h3>Vulkan Engine</h3>
+          <p>Deferred renderer with SSAO/HBAO, post-FX, ImGui debug tools.</p>
+          <p><a href="https://github.com/sahilpuri22/vulkan-engine">View Repo →</a></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="media/jolt-car.gif" alt="Vehicle physics demo">
+        <div class="card-body">
+          <h3>Vehicle Physics (Jolt)</h3>
+          <p>Drift model, chase camera with collision raycasts.</p>
+          <p><a href="https://github.com/sahilpuri22/vehicle-physics">View Repo →</a></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="media/ssao-vs-hbao.png" alt="SSAO vs HBAO">
+        <div class="card-body">
+          <h3>SSAO vs HBAO Study</h3>
+          <p>Quality/perf comparison incl. Alchemy SSAO.</p>
+          <p><a href="https://github.com/sahilpuri22/ssao-hbao-study">View Repo →</a></p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © <span id="y"></span> Sahil Puri · <a href="contact.html">Get in touch</a>
   </footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Contact | Sahil Puri</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Sahil Puri</a>
+      <div class="tabs">
+        <a class="tab" href="index.html">Projects</a>
+        <a class="tab" href="about.html">About</a>
+        <a class="tab active" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="header">
+    <h1>Contact</h1>
+    <p>Reach out for roles, collabs, or questions.</p>
+  </header>
+
+  <main class="container">
+    <h2 class="section-title">Say hello</h2>
+    <p>
+      Email: <a href="mailto:youremail@example.com">youremail@example.com</a><br/>
+      GitHub: <a href="https://github.com/sahilpuri22">github.com/sahilpuri22</a><br/>
+      LinkedIn: <a href="https://linkedin.com/in/yourprofile">linkedin.com/in/yourprofile</a>
+    </p>
+
+    <!-- Netlify form (works if you deploy there later) -->
+    <h2 class="section-title">Message</h2>
+    <form name="contact" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="contact">
+      <div style="display:grid;gap:12px;max-width:640px">
+        <input name="name" placeholder="Your name" required
+               style="padding:12px;border-radius:8px;border:1px solid var(--mauve);background:var(--slate);color:var(--cream)"/>
+        <input name="email" type="email" placeholder="Your email" required
+               style="padding:12px;border-radius:8px;border:1px solid var(--mauve);background:var(--slate);color:var(--cream)"/>
+        <textarea name="message" rows="6" placeholder="Your message"
+               style="padding:12px;border-radius:8px;border:1px solid var(--mauve);background:var(--slate);color:var(--cream)"></textarea>
+        <button type="submit"
+               style="padding:12px 16px;border-radius:8px;border:1px solid var(--mauve);background:var(--slate);color:var(--cream);cursor:pointer">
+          Send
+        </button>
+      </div>
+    </form>
+    <p style="color:var(--mauve);margin-top:10px">
+      (On GitHub Pages, this form won’t send anywhere by default. You can link the email button above,
+      or later move to Netlify to enable the built-in form handler without code changes.)
+    </p>
+  </main>
+
+  <footer class="footer">© <span id="y"></span> Sahil Puri</footer>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</body>
+</html>
