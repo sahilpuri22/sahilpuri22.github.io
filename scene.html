@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sahil Puri | Interactive Viewer</title>
+<style>
+  :root{ --dark:#22223b; --slate:#4a4e69; --mauve:#9a8c98; --rose:#c9ada7; --cream:#f2e9e4; }
+  html,body{height:100%;margin:0;background:var(--dark);color:var(--cream);font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+  .nav{position:fixed;top:0;left:0;right:0;z-index:10;background:linear-gradient(135deg,var(--dark),var(--slate));border-bottom:1px solid rgba(154,140,152,.35)}
+  .nav-inner{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;gap:16px;align-items:center}
+  .brand{font-weight:700;color:var(--rose);text-decoration:none}
+  .tabs{margin-left:auto;display:flex;gap:10px}
+  .tab{color:var(--cream);text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid transparent}
+  .tab:hover{background:rgba(74,78,105,.35);border-color:rgba(154,140,152,.35)}
+  #stage{position:absolute;inset:56px 0 0 0}
+  .hint{position:fixed;left:16px;bottom:12px;color:var(--mauve);font-size:12px;pointer-events:none}
+  .badge{position:fixed;right:12px;bottom:12px;background:rgba(74,78,105,.7);border:1px solid var(--mauve);color:var(--cream);
+         padding:6px 10px;border-radius:8px;font-size:12px}
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Sahil Puri</a>
+      <div class="tabs">
+        <a class="tab" href="index.html">Home</a>
+        <a class="tab" href="projects.html">Projects</a>
+        <a class="tab" href="about.html">About</a>
+        <a class="tab" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="stage"></div>
+  <div class="hint">Scroll = zoom · Right-drag = pan · Left-drag = orbit</div>
+  <div class="badge">Viewer: PBR / Wireframe / Normals / UV / Matcap / Depth</div>
+
+  <!-- Three.js & helpers (CDN) -->
+  <script type="module">
+    import * as THREE from "https://unpkg.com/three@0.161.0/build/three.module.js";
+    import {OrbitControls} from "https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js";
+    import {GLTFLoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js";
+    import {RGBELoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/RGBELoader.js";
+    import {GUI} from "https://unpkg.com/lil-gui@0.19/dist/lil-gui.esm.js";
+
+    // ---------- Basic scene ----------
+    const container = document.getElementById("stage");
+    const renderer = new THREE.WebGLRenderer({antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    container.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#22223b");
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.05, 200);
+    camera.position.set(2.5, 1.6, 3.0);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+
+    // ---------- Lights ----------
+    const key = new THREE.DirectionalLight(0xffffff, 2.0);
+    key.position.set(5,6,4);
+    const fill = new THREE.HemisphereLight(0xffffff, 0x444444, 0.6);
+    scene.add(key, fill);
+
+    // Ground (nice contact shadow feel)
+    const ground = new THREE.Mesh(
+      new THREE.CircleGeometry(5, 64),
+      new THREE.MeshStandardMaterial({color:"#4a4e69", metalness:0.0, roughness:0.9})
+    );
+    ground.rotation.x = -Math.PI/2;
+    ground.position.y = -0.001;
+    ground.receiveShadow = false;
+    scene.add(ground);
+
+    // ---------- Environment (optional HDR) ----------
+    let envMap = null;
+    try {
+      new RGBELoader()
+        .setPath("assets/")
+        .load("studio.hdr", (hdr)=>{
+          hdr.mapping = THREE.EquirectangularReflectionMapping;
+          envMap = hdr;
+          scene.environment = envMap;
+          renderer.render(scene, camera);
+        });
+    } catch(e){ /* no HDR, fine */ }
+
+    // ---------- Materials / Modes ----------
+    const texLoader = new THREE.TextureLoader();
+    // Generate a checker if none present (data URL)
+    function makeChecker(size=512, squares=8){
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const g = c.getContext('2d');
+      const s = size/squares;
+      for(let y=0;y<squares;y++){
+        for(let x=0;x<squares;x++){
+          g.fillStyle = (x+y)%2 ? "#9a8c98" : "#f2e9e4";
+          g.fillRect(x*s,y*s,s,s);
+        }
+      }
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      t.repeat.set(1,1);
+      return t;
+    }
+    const uvChecker = makeChecker();
+
+    // Custom shaders for view/world normals & depth
+    const normalVisMat = new THREE.ShaderMaterial({
+      vertexShader: /* glsl */`
+        varying vec3 vNormalVS;
+        varying vec3 vNormalWS;
+        void main(){
+          vNormalWS = normalize(normalMatrix * normal);
+          vec4 mv = modelViewMatrix * vec4(position,1.0);
+          vNormalVS = normalize(mat3(modelViewMatrix) * normal);
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: /* glsl */`
+        varying vec3 vNormalVS;
+        varying vec3 vNormalWS;
+        uniform bool viewSpace;
+        void main(){
+          vec3 n = normalize(viewSpace ? vNormalVS : vNormalWS);
+          n = n * 0.5 + 0.5; // map -1..1 to 0..1
+          gl_FragColor = vec4(n,1.0);
+        }`,
+      uniforms: { viewSpace: {value: true} }
+    });
+
+    const depthVisMat = new THREE.ShaderMaterial({
+      vertexShader: /* glsl */`
+        varying float vDepth;
+        void main(){
+          vec4 mv = modelViewMatrix * vec4(position,1.0);
+          vDepth = -mv.z; // camera forward is -Z
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: /* glsl */`
+        varying float vDepth;
+        uniform float near;
+        uniform float far;
+        float linear01(float z){ return (z - near) / (far - near); }
+        void main(){
+          float d = clamp(linear01(vDepth), 0.0, 1.0);
+          gl_FragColor = vec4(vec3(d), 1.0);
+        }`,
+      uniforms: { near:{value: camera.near}, far:{value: camera.far} }
+    });
+
+    const matcap = texLoader.load("https://raw.githubusercontent.com/nidorx/matcaps/master/256/6C6C6C_9C9C9C_DDDDDD_FFFFFF-256px.png");
+    matcap.colorSpace = THREE.SRGBColorSpace;
+
+    const materials = {
+      PBR: new THREE.MeshStandardMaterial({color:"#c9ada7", metalness:0.2, roughness:0.6, envMapIntensity:1.0}),
+      Wireframe: new THREE.MeshBasicMaterial({color:"#f2e9e4", wireframe:true}),
+      UV_Checker: new THREE.MeshBasicMaterial({map: uvChecker}),
+      Matcap: new THREE.MeshMatcapMaterial({matcap}),
+      Normals_View: normalVisMat,   // view space normals
+      Normals_World: normalVisMat.clone(), // world space normals
+      Depth: depthVisMat
+    };
+    materials.Normals_View.uniforms.viewSpace.value = true;
+    materials.Normals_World.uniforms.viewSpace.value = false;
+
+    // ---------- Load model (fallback if missing) ----------
+    let modelRoot = new THREE.Group();
+    scene.add(modelRoot);
+
+    async function loadModel() {
+      const loader = new GLTFLoader().setPath("assets/");
+      try{
+        const gltf = await loader.loadAsync("model.glb");
+        modelRoot.add(gltf.scene);
+        fitCameraToObject(gltf.scene);
+      } catch (e){
+        // Fallback primitive (torus knot)
+        const geo = new THREE.TorusKnotGeometry(0.6, 0.22, 256, 32);
+        const mesh = new THREE.Mesh(geo, materials.PBR);
+        modelRoot.add(mesh);
+        fitCameraToObject(mesh);
+      }
+      applyMaterial(currentMode);
+    }
+
+    function fitCameraToObject(obj){
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = new THREE.Vector3(); box.getSize(size);
+      const center = new THREE.Vector3(); box.getCenter(center);
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const dist = maxDim / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov/2)));
+      camera.position.copy(center).add(new THREE.Vector3(dist*1.2, dist*0.8, dist*1.2));
+      camera.near = Math.max(0.01, dist/100);
+      camera.far = dist*100;
+      camera.updateProjectionMatrix();
+      depthVisMat.uniforms.near.value = camera.near;
+      depthVisMat.uniforms.far.value = camera.far;
+      controls.target.copy(center);
+      controls.update();
+    }
+
+    function setMaterialRecursive(obj, mat){
+      obj.traverse((c)=>{
+        if (c.isMesh){
+          c.material = mat;
+          c.material.needsUpdate = true;
+        }
+      });
+    }
+
+    let currentMode = "PBR";
+    function applyMaterial(mode){
+      currentMode = mode;
+      // Enable/disable environment & lights depending on mode
+      const useEnv = (mode === "PBR" || mode === "Matcap");
+      scene.environment = useEnv ? envMap : null;
+      key.visible = (mode === "PBR" || mode === "UV_Checker" || mode.startsWith("Normals") || mode==="Depth");
+      fill.visible = key.visible;
+
+      // For Matcap, lights are irrelevant
+      if (mode === "Matcap") { key.visible = fill.visible = false; }
+
+      // Apply
+      const mat = materials[mode];
+      setMaterialRecursive(modelRoot, mat);
+    }
+
+    // ---------- GUI ----------
+    const gui = new GUI({title:"Viewer"});
+    const params = {
+      Mode: currentMode,
+      ViewSpaceNormals: true,
+      ToneMapping: "ACES",
+      Exposure: 1.0,
+      ResetCamera(){ fitCameraToObject(modelRoot); }
+    };
+
+    gui.add(params, "Mode", Object.keys(materials)).onChange(applyMaterial);
+    gui.add(params, "ViewSpaceNormals").onChange(v=>{
+      materials.Normals_View.uniforms.viewSpace.value = true;
+      materials.Normals_World.uniforms.viewSpace.value = false;
+      if (currentMode.startsWith("Normals")){
+        applyMaterial(v ? "Normals_View" : "Normals_World");
+      }
+    });
+    gui.add(params, "ToneMapping", ["ACES","Reinhard","Linear","None"]).onChange(v=>{
+      renderer.toneMapping = ({
+        "ACES": THREE.ACESFilmicToneMapping,
+        "Reinhard": THREE.ReinhardToneMapping,
+        "Linear": THREE.LinearToneMapping,
+        "None": THREE.NoToneMapping
+      })[v];
+    });
+    gui.add(params, "Exposure", 0.2, 2.5, 0.01).onChange(v=>{ renderer.toneMappingExposure = v; });
+    gui.add(params, "ResetCamera");
+
+    // ---------- Animate ----------
+    const clock = new THREE.Clock();
+    function tick(){
+      const dt = clock.getDelta();
+      controls.update();
+      renderer.render(scene, camera);
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Resize
+    window.addEventListener("resize", ()=>{
+      renderer.setSize(container.clientWidth, container.clientHeight);
+      camera.aspect = container.clientWidth/container.clientHeight;
+      camera.updateProjectionMatrix();
+    });
+
+    // Go
+    loadModel();
+  </script>
+</body>
+</html>
