@@ -180,7 +180,7 @@
     async function loadModel() {
       const loader = new GLTFLoader().setPath("assets/");
       try{
-        const gltf = await loader.loadAsync("player.glb");
+        const gltf = await loader.loadAsync("model.glb");
         modelRoot.add(gltf.scene);
         fitCameraToObject(gltf.scene);
       } catch (e){
