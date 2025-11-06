@@ -4,6 +4,13 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Sahil Puri | Interactive Viewer</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.161.0/build/three.module.js"
+  }
+}
+</script>
 <style>
   :root{ --dark:#22223b; --slate:#4a4e69; --mauve:#9a8c98; --rose:#c9ada7; --cream:#f2e9e4; }
   html,body{height:100%;margin:0;background:var(--dark);color:var(--cream);font-family:-apple-system,BlinkMacSystemFont,sans-serif}
@@ -38,7 +45,7 @@
 
   <!-- Three.js & helpers (CDN) -->
   <script type="module">
-    import * as THREE from "https://unpkg.com/three@0.161.0/build/three.module.js";
+    import * as THREE from "three";
     import {OrbitControls} from "https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js";
     import {GLTFLoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js";
     import {RGBELoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/RGBELoader.js";
@@ -94,7 +101,7 @@
     } catch(e){ /* no HDR, fine */ }
 
     // ---------- Materials / Modes ----------
-    const texLoader = new THREE.TextureLoader();
+    const texLoader = new THREE.TextureLoader().setCrossOrigin('anonymous');
     // Generate a checker if none present (data URL)
     function makeChecker(size=512, squares=8){
       const c = document.createElement('canvas');
