@@ -70,6 +70,7 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
+    controls.enablePan = false; // disable panning per request
 
     // ---------- Lights ----------
     const key = new THREE.DirectionalLight(0xffffff, 2.0);
@@ -212,7 +213,9 @@
       camera.updateProjectionMatrix();
       depthVisMat.uniforms.near.value = camera.near;
       depthVisMat.uniforms.far.value = camera.far;
-      controls.target.copy(center);
+      // Offset the target to the right so the model appears left-middle
+      const horizOffset = maxDim * 0.6; // tune as needed
+      controls.target.set(center.x + horizOffset, center.y, center.z);
       controls.update();
     }
 
@@ -273,9 +276,12 @@
 
     // ---------- Animate ----------
     const clock = new THREE.Clock();
+    const spinSpeed = 0.4; // radians per second
     function tick(){
       const dt = clock.getDelta();
       controls.update();
+      // gentle spin around Y for the model
+      if (modelRoot) modelRoot.rotation.y += spinSpeed * dt;
       renderer.render(scene, camera);
       requestAnimationFrame(tick);
     }
