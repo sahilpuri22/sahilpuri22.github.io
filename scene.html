@@ -47,7 +47,8 @@
   <script type="module">
     import * as THREE from "three";
     import {OrbitControls} from "https://unpkg.com/three@0.161.0/examples/jsm/controls/OrbitControls.js";
-    import {GLTFLoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/GLTFLoader.js";
+    import {OBJLoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/OBJLoader.js";
+    import {MTLLoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/MTLLoader.js";
     import {RGBELoader} from "https://unpkg.com/three@0.161.0/examples/jsm/loaders/RGBELoader.js";
     import {GUI} from "https://unpkg.com/lil-gui@0.19/dist/lil-gui.esm.js";
 
@@ -186,14 +187,20 @@
     scene.add(modelRoot);
 
     async function loadModel() {
-      const loader = new GLTFLoader().setPath("assets/");
+      const objLoader = new OBJLoader().setPath("assets/");
       try{
-        const gltf = await loader.loadAsync("model.glb");
-        // Center the model around its own bounding-box center so rotation pivots correctly
-        const obj = gltf.scene;
+        // Try to load materials if present (optional)
+        try {
+          const mtl = await new MTLLoader().setPath("assets/").loadAsync("model.mtl");
+          mtl.preload();
+          objLoader.setMaterials(mtl);
+        } catch {/* no MTL, continue with geometry only */}
+
+        const obj = await objLoader.loadAsync("model.obj");
+        // Center around its bounding-box center so rotation pivots correctly
         const box = new THREE.Box3().setFromObject(obj);
         const center = new THREE.Vector3(); box.getCenter(center);
-        obj.position.sub(center); // move geometry so its center is at the origin
+        obj.position.sub(center);
         obj.updateMatrixWorld(true);
         modelRoot.add(obj);
         // Fit camera to the centered root
