@@ -66,6 +66,7 @@
   #stage{
     position:absolute;
     inset:56px 0 0 340px;  /* leave room for nav + bio card */
+    z-index:1;
   }
   .bio-card{
     position:fixed;
@@ -81,6 +82,7 @@
     display:flex;
     flex-direction:column;
     gap:14px;
+    z-index:3;
   }
   .bio-label{
     font-size:11px;
@@ -128,6 +130,30 @@
     border-radius:8px;
     font-size:12px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  }
+  .viewer-controls{
+    position:fixed;
+    left:360px;
+    right:16px;
+    bottom:16px;
+    max-width:380px;
+    margin:0;
+    padding:4px;
+    background:rgba(247,247,242,0.96);
+    border:1px solid var(--beige);
+    border-radius:12px;
+    box-shadow:0 12px 28px rgba(0,0,0,0.12);
+    color:var(--carbon-black);
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    z-index:3;
+    pointer-events:auto;
+  }
+  .viewer-controls .title{
+    color:var(--carbon-black);
+    letter-spacing:0.05em;
+  }
+  .viewer-controls .controller{
+    border-color:rgba(137,152,120,0.25);
   }
 </style>
 
@@ -399,6 +425,7 @@ Add a brief tagline, a short list of specialties, or a motto that captures your 
     });
     gui.add(params, "Exposure", 0.2, 2.5, 0.01).onChange(v=>{ renderer.toneMappingExposure = v; });
     gui.add(params, "ResetCamera");
+    gui.domElement.classList.add("viewer-controls");
 
     // ---------- Animate ----------
     const clock = new THREE.Clock();
