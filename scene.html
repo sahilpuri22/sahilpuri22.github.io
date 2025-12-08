@@ -22,10 +22,12 @@
   html,body{
     height:100%;
     margin:0;
-    background:#ffffff;              /* white page background */
-    color:#000000;                   /* black text */
+    background:#ffffff;
+    color:#000000;
     font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    perspective:1000px; /* helps 3D tilt feel better */
   }
+
   .nav{
     position:fixed;
     top:0;left:0;right:0;
@@ -63,18 +65,106 @@
     background:var(--porcelain);
     border-color:var(--beige);
   }
+
+  /* Left panel + viewer layout */
+  .bio-panel{
+    position:fixed;
+    top:56px;         /* below nav */
+    left:0;
+    bottom:0;
+    width:340px;
+
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(14px);
+    border-right:1px solid rgba(137,152,120,0.35);
+    box-shadow:
+      8px 0 30px rgba(0,0,0,0.18),
+      inset -1px 0 0 rgba(255,255,255,0.6);
+
+    z-index:3;
+    display:flex;
+    flex-direction:column;
+    transform-origin:left center;
+    transition:transform 0.15s ease-out, box-shadow 0.15s ease-out, background 0.15s ease-out;
+  }
+
+  .bio-photo{
+    padding:18px 0 10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-bottom:1px solid rgba(137,152,120,0.35);
+  }
+  .bio-photo-inner{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0.2)),
+      linear-gradient(135deg, rgba(137,152,120,0.8), rgba(228,230,195,0.7));
+    box-shadow:0 10px 25px rgba(0,0,0,0.18);
+    position:relative;
+    overflow:hidden;
+  }
+  .bio-photo-inner::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%);
+    mix-blend-mode:screen;
+    pointer-events:none;
+  }
+  /* Optional: if you later add an img tag, it will sit inside this circle */
+  .bio-photo-inner img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .bio-content{
+    padding:18px 20px 20px;
+    overflow-y:auto;
+  }
+  .bio-content h2{
+    margin:0 0 4px;
+    font-size:18px;
+    font-weight:700;
+    color:var(--carbon-black);
+  }
+  .bio-content h3{
+    margin:0 0 14px;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--palm-leaf);
+  }
+  .bio-content p{
+    margin:0 0 14px;
+    font-size:14px;
+    line-height:1.6;
+    color:#333333;
+  }
+
+  /* 3D stage shifted to the right of the panel */
   #stage{
     position:absolute;
-    inset:56px 0 120px 0;  /* leave room for nav + bottom controls */
+    top:56px;
+    left:340px;          /* matches panel width */
+    right:0;
+    bottom:120px;        /* space for bottom controls */
     z-index:1;
   }
+
   .hint{
     position:fixed;
-    left:16px;
+    left:360px;
     bottom:12px;
     color:#555555;
     font-size:12px;
     pointer-events:none;
+    z-index:2;
   }
   .badge{
     position:fixed;
@@ -87,50 +177,12 @@
     border-radius:8px;
     font-size:12px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    z-index:2;
   }
-  .bio-card{
-    position:fixed;
-    left:24px;
-    bottom:24px;
-    max-width:260px;
-    background:rgba(255,255,255,0.9);
-    backdrop-filter:blur(12px);
-    border-radius:16px;
-    padding:16px 18px;
-    border:1px solid rgba(137,152,120,0.4);
-    box-shadow:
-      0 14px 40px rgba(0,0,0,0.25),
-      0 0 0 1px rgba(255,255,255,0.6);
-    color:#222725;
-    font-size:14px;
-    z-index:3;
-  }
-  .bio-card h2{
-    margin:0 0 6px;
-    font-size:16px;
-    font-weight:600;
-    color:#121113;
-  }
-  .bio-card p{
-    margin:2px 0;
-    color:#333333;
-  }
-  .bio-card::after{
-    content:"";
-    position:absolute;
-    left:12%;
-    right:12%;
-    bottom:-12px;
-    height:16px;
-    border-radius:50%;
-    background:radial-gradient(ellipse at center,
-      rgba(0,0,0,0.22) 0%,
-      rgba(0,0,0,0) 70%);
-    pointer-events:none;
-  }
+
   .viewer-controls{
     position:fixed;
-    left:320px;
+    left:360px;
     right:24px;
     bottom:16px;
     height:88px;
@@ -164,17 +216,39 @@
         <a class="tab" href="index.html">Home</a>
         <a class="tab" href="projects.html">Projects</a>
         <a class="tab" href="about.html">About</a>
-      <a class="tab" href="contact.html">Contact</a>
+        <a class="tab" href="contact.html">Contact</a>
       </div>
     </div>
   </nav>
 
-  <div id="stage"></div>
-  <div class="bio-card">
-    <h2>Sahil Puri</h2>
-    <p>Graphics &amp; gameplay engineer.</p>
-    <p>Vulkan · real-time rendering · Jolt physics.</p>
+  <div class="bio-panel">
+    <div class="bio-photo">
+      <div class="bio-photo-inner">
+        <!-- Optional: put <img src="media/portrait.jpg" alt="Sahil"> here later -->
+      </div>
+    </div>
+    <div class="bio-content">
+      <h2>Sahil Puri</h2>
+      <h3>Graphics &amp; Gameplay Engineer</h3>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <p>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+        ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur.
+      </p>
+      <p>
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+        officia deserunt mollit anim id est laborum.
+      </p>
+    </div>
   </div>
+
+  <div id="stage"></div>
   <div class="hint">Scroll = zoom · Right-drag = pan · Left-drag = orbit</div>
   <div class="badge">Viewer: PBR / Wireframe / Normals / UV / Matcap / Depth</div>
 
@@ -206,21 +280,19 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
-    controls.enablePan = false; // disable panning per request
-    controls.enableZoom = false; // disable zoom per request
+    controls.enablePan = false;
+    controls.enableZoom = false;
 
     // ---------- Lights ----------
-    const key = new THREE.DirectionalLight(0xffffff, 3.0); // stronger key
+    const key = new THREE.DirectionalLight(0xffffff, 3.0);
     key.position.set(5, 6, 4);
 
     const fill = new THREE.HemisphereLight(0xffffff, 0x666666, 1.2);
 
-    const rim = new THREE.DirectionalLight(0xffffff, 1.5); // rim / back light
+    const rim = new THREE.DirectionalLight(0xffffff, 1.5);
     rim.position.set(-4, 3, -6);
 
     scene.add(key, fill, rim);
-
-
 
     // ---------- Environment (optional HDR) ----------
     let envMap = null;
@@ -237,7 +309,6 @@
 
     // ---------- Materials / Modes ----------
     const texLoader = new THREE.TextureLoader().setCrossOrigin('anonymous');
-    // Generate a checker if none present (data URL)
     function makeChecker(size=512, squares=8){
       const c = document.createElement('canvas');
       c.width = c.height = size;
@@ -274,7 +345,7 @@
         uniform bool viewSpace;
         void main(){
           vec3 n = normalize(viewSpace ? vNormalVS : vNormalWS);
-          n = n * 0.5 + 0.5; // map -1..1 to 0..1
+          n = n * 0.5 + 0.5;
           gl_FragColor = vec4(n,1.0);
         }`,
       uniforms: { viewSpace: {value: true} }
@@ -285,7 +356,7 @@
         varying float vDepth;
         void main(){
           vec4 mv = modelViewMatrix * vec4(position,1.0);
-          vDepth = -mv.z; // camera forward is -Z
+          vDepth = -mv.z;
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: /* glsl */`
@@ -308,8 +379,8 @@
       Wireframe: new THREE.MeshBasicMaterial({color:"#f2e9e4", wireframe:true}),
       UV_Checker: new THREE.MeshBasicMaterial({map: uvChecker}),
       Matcap: new THREE.MeshMatcapMaterial({matcap}),
-      Normals_View: normalVisMat,   // view space normals
-      Normals_World: normalVisMat.clone(), // world space normals
+      Normals_View: normalVisMat,
+      Normals_World: normalVisMat.clone(),
       Depth: depthVisMat
     };
     materials.Normals_View.uniforms.viewSpace.value = true;
@@ -322,24 +393,20 @@
     async function loadModel() {
       const objLoader = new OBJLoader().setPath("assets/");
       try{
-        // Try to load materials if present (optional)
         try {
           const mtl = await new MTLLoader().setPath("assets/").loadAsync("model.mtl");
           mtl.preload();
           objLoader.setMaterials(mtl);
-        } catch {/* no MTL, continue with geometry only */}
+        } catch {/* no MTL */}
 
         const obj = await objLoader.loadAsync("model.obj");
-        // Center around its bounding-box center so rotation pivots correctly
         const box = new THREE.Box3().setFromObject(obj);
         const center = new THREE.Vector3(); box.getCenter(center);
         obj.position.sub(center);
         obj.updateMatrixWorld(true);
         modelRoot.add(obj);
-        // Fit camera to the centered root
         fitCameraToObject(modelRoot);
       } catch (e){
-        // Fallback primitive (torus knot)
         const geo = new THREE.TorusKnotGeometry(0.6, 0.22, 256, 32);
         const mesh = new THREE.Mesh(geo, materials.PBR);
         modelRoot.add(mesh);
@@ -360,7 +427,6 @@
       camera.updateProjectionMatrix();
       depthVisMat.uniforms.near.value = camera.near;
       depthVisMat.uniforms.far.value = camera.far;
-      // Center the target so the model is centered on screen
       controls.target.copy(center);
       controls.update();
     }
@@ -377,18 +443,25 @@
     let currentMode = "PBR";
     function applyMaterial(mode){
       currentMode = mode;
-      // Enable/disable environment & lights depending on mode
       const useEnv = (mode === "PBR" || mode === "Matcap");
       scene.environment = useEnv ? envMap : null;
       key.visible = (mode === "PBR" || mode === "UV_Checker" || mode.startsWith("Normals") || mode==="Depth");
       fill.visible = key.visible;
-
-      // For Matcap, lights are irrelevant
       if (mode === "Matcap") { key.visible = fill.visible = false; }
-
-      // Apply
       const mat = materials[mode];
       setMaterialRecursive(modelRoot, mat);
+    }
+
+    // ---------- Panel lighting sync ----------
+    const bioPanel = document.querySelector('.bio-panel');
+    function updatePanelForExposure(exp){
+      if (!bioPanel) return;
+      const k = Math.min(Math.max(exp, 0.6), 1.8);
+      const bgAlpha = 0.86 + (k-1.0)*0.06;
+      const shadowAlpha = 0.18 + (k-1.0)*0.05;
+      bioPanel.style.background = `rgba(255,255,255,${bgAlpha.toFixed(2)})`;
+      bioPanel.style.boxShadow =
+        `8px 0 30px rgba(0,0,0,${shadowAlpha.toFixed(2)}), inset -1px 0 0 rgba(255,255,255,0.6)`;
     }
 
     // ---------- GUI ----------
@@ -417,17 +490,22 @@
         "None": THREE.NoToneMapping
       })[v];
     });
-    gui.add(params, "Exposure", 0.2, 2.5, 0.01).onChange(v=>{ renderer.toneMappingExposure = v; });
+    gui.add(params, "Exposure", 0.2, 2.5, 0.01).onChange(v=>{
+      renderer.toneMappingExposure = v;
+      updatePanelForExposure(v);  // sync panel lighting
+    });
     gui.add(params, "ResetCamera");
     gui.domElement.classList.add("viewer-controls");
 
+    // Initial panel sync
+    updatePanelForExposure(params.Exposure);
+
     // ---------- Animate ----------
     const clock = new THREE.Clock();
-    const spinSpeed = 0.4; // radians per second
+    const spinSpeed = 0.4;
     function tick(){
       const dt = clock.getDelta();
       controls.update();
-      // gentle spin around Y for the model
       if (modelRoot) modelRoot.rotation.y += spinSpeed * dt;
       renderer.render(scene, camera);
       requestAnimationFrame(tick);
@@ -442,18 +520,18 @@
     });
 
     // Go
-  loadModel();
+    loadModel();
   </script>
   <script>
-    const bioCard = document.querySelector('.bio-card');
-    if (bioCard){
+    const bioPanelEl = document.querySelector('.bio-panel');
+    if (bioPanelEl){
       window.addEventListener('mousemove', (e)=>{
         const x = (e.clientX / window.innerWidth) - 0.5;
         const y = (e.clientY / window.innerHeight) - 0.5;
-        const maxTilt = 4;
+        const maxTilt = 2;
         const rx = y * maxTilt;
         const ry = -x * maxTilt;
-        bioCard.style.transform = `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        bioPanelEl.style.transform = `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
       });
     }
   </script>
