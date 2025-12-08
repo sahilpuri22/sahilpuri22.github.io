@@ -69,31 +69,32 @@
   /* Left panel + viewer layout */
   .bio-panel{
     position:fixed;
-    /* float within the viewport, not touching edges */
-    top:88px;                    /* a bit below the nav */
-    left:32px;                   /* away from the left edge */
+    /* float within viewport, not touching edges */
+    top:80px;                     /* a bit below the nav */
+    left:32px;                    /* away from the left edge */
     bottom:auto;
 
-    /* larger, left-third focus */
-    width:min(420px, 34vw);      /* responsive but clearly dominant */
-    max-height:calc(100vh - 88px - 48px);
+    /* larger, dominant on left third */
+    width:min(520px, 42vw);       /* much bigger */
+    max-height:calc(100vh - 80px - 40px);
 
-    background:rgba(255,255,255,0.92);
-    backdrop-filter:blur(14px);
+    background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(16px);
 
-    border-radius:20px;
-    border:1px solid rgba(137,152,120,0.35);
+    border-radius:22px;
+    border:1px solid rgba(137,152,120,0.4);
     box-shadow:
-      0 22px 45px rgba(0,0,0,0.22),
+      0 26px 60px rgba(0,0,0,0.24),
       0 0 0 1px rgba(255,255,255,0.6);
 
     z-index:3;
     display:flex;
     flex-direction:column;
     overflow:hidden;
+
     transform-origin:left center;
-    /* base tilt towards viewer (left edge closer) */
-    transform:translateZ(0) rotateY(-5deg);
+    /* left edge slightly closer, right edge further */
+    transform:translateZ(0) rotateY(5deg);
     transition:
       transform 0.15s ease-out,
       box-shadow 0.15s ease-out,
@@ -541,22 +542,23 @@
   <script>
   const bioPanelEl = document.querySelector('.bio-panel');
   if (bioPanelEl){
-    const baseRotY = -5;     // base tilt so left edge is closer
-    const maxDeltaY = 2;     // extra Y tilt from mouse
-    const maxDeltaX = 1.2;   // small X tilt
+    const baseRotY = 5;        // left edge closer, right further
+    const maxDeltaY = 1.5;     // small side-to-side variation
+    const maxDeltaX = 1.0;     // small up/down tilt
 
     window.addEventListener('mousemove', (e)=>{
       const x = (e.clientX / window.innerWidth) - 0.5; // -0.5..0.5
       const y = (e.clientY / window.innerHeight) - 0.5;
 
-      const rx = y * maxDeltaX;              // slight up/down tilt
-      const ry = baseRotY + (-x * maxDeltaY); // hover varies around -5deg
+      const rx = y * maxDeltaX;           // very subtle X tilt
+      const ry = baseRotY + (x * maxDeltaY); // vary around +5deg
 
       bioPanelEl.style.transform =
         `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    });
-  }
-</script>
+      });
+    }
+  </script>
+
 
 </body>
 </html>
