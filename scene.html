@@ -12,19 +12,83 @@
 }
 </script>
 <style>
-  :root{ --dark:#22223b; --slate:#4a4e69; --mauve:#9a8c98; --rose:#c9ada7; --cream:#f2e9e4; }
-  html,body{height:100%;margin:0;background:var(--dark);color:var(--cream);font-family:-apple-system,BlinkMacSystemFont,sans-serif}
-  .nav{position:fixed;top:0;left:0;right:0;z-index:10;background:linear-gradient(135deg,var(--dark),var(--slate));border-bottom:1px solid rgba(154,140,152,.35)}
-  .nav-inner{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;gap:16px;align-items:center}
-  .brand{font-weight:700;color:var(--rose);text-decoration:none}
-  .tabs{margin-left:auto;display:flex;gap:10px}
-  .tab{color:var(--cream);text-decoration:none;padding:6px 10px;border-radius:8px;border:1px solid transparent}
-  .tab:hover{background:rgba(74,78,105,.35);border-color:rgba(154,140,152,.35)}
-  #stage{position:absolute;inset:56px 0 0 0}
-  .hint{position:fixed;left:16px;bottom:12px;color:var(--mauve);font-size:12px;pointer-events:none}
-  .badge{position:fixed;right:12px;bottom:12px;background:rgba(74,78,105,.7);border:1px solid var(--mauve);color:var(--cream);
-         padding:6px 10px;border-radius:8px;font-size:12px}
+  :root{
+    --porcelain:   #f7f7f2;
+    --beige:       #e4e6c3;
+    --palm-leaf:   #899878;
+    --carbon-black:#222725;
+    --onyx:        #121113;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    background:#ffffff;              /* white page background */
+    color:#000000;                   /* black text */
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  .nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:10;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #e0e0e0;
+  }
+  .nav-inner{
+    max-width:1100px;
+    margin:0 auto;
+    padding:12px 16px;
+    display:flex;
+    gap:16px;
+    align-items:center;
+  }
+  .brand{
+    font-weight:700;
+    color:var(--carbon-black);
+    text-decoration:none;
+  }
+  .tabs{
+    margin-left:auto;
+    display:flex;
+    gap:10px;
+  }
+  .tab{
+    color:#333333;
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:8px;
+    border:1px solid transparent;
+  }
+  .tab:hover{
+    background:var(--porcelain);
+    border-color:var(--beige);
+  }
+  #stage{
+    position:absolute;
+    inset:56px 0 0 0;  /* leave room for nav */
+  }
+  .hint{
+    position:fixed;
+    left:16px;
+    bottom:12px;
+    color:#555555;
+    font-size:12px;
+    pointer-events:none;
+  }
+  .badge{
+    position:fixed;
+    right:12px;
+    bottom:12px;
+    background:rgba(255,255,255,0.9);
+    border:1px solid #e0e0e0;
+    color:#333333;
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+  }
 </style>
+
 </head>
 <body>
   <nav class="nav">
@@ -63,7 +127,7 @@
     container.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#22223b");
+    scene.background = new THREE.Color("#f7f7f2");
 
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.05, 200);
     camera.position.set(2.5, 1.6, 3.0);
