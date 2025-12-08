@@ -65,51 +65,8 @@
   }
   #stage{
     position:absolute;
-    inset:56px 0 0 340px;  /* leave room for nav + bio card */
+    inset:56px 0 120px 0;  /* leave room for nav + bottom controls */
     z-index:1;
-  }
-  .bio-card{
-    position:fixed;
-    top:56px;
-    left:0;
-    bottom:0;
-    width:320px;
-    background:rgba(255,255,255,0.95);
-    border-right:1px solid #e0e0e0;
-    padding:18px 16px 16px;
-    box-shadow:6px 0 24px rgba(0,0,0,0.06);
-    overflow:auto;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    z-index:3;
-  }
-  .bio-label{
-    font-size:11px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:#666666;
-  }
-  .bio-title{
-    font-size:20px;
-    font-weight:700;
-    color:var(--carbon-black);
-    margin:0;
-  }
-  .bio-photo{
-    width:100%;
-    aspect-ratio:4/5;
-    border-radius:14px;
-    background:linear-gradient(135deg, #b7c2ab, #e4e6c3);
-    border:1px solid #d6d6d6;
-    box-shadow:0 10px 24px rgba(0,0,0,0.08);
-  }
-  .bio-text{
-    font-size:14px;
-    line-height:1.6;
-    color:#333333;
-    margin:0;
-    white-space:pre-line;
   }
   .hint{
     position:fixed;
@@ -131,17 +88,58 @@
     font-size:12px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
   }
+  .bio-card{
+    position:fixed;
+    left:24px;
+    bottom:24px;
+    max-width:260px;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(12px);
+    border-radius:16px;
+    padding:16px 18px;
+    border:1px solid rgba(137,152,120,0.4);
+    box-shadow:
+      0 14px 40px rgba(0,0,0,0.25),
+      0 0 0 1px rgba(255,255,255,0.6);
+    color:#222725;
+    font-size:14px;
+    z-index:3;
+  }
+  .bio-card h2{
+    margin:0 0 6px;
+    font-size:16px;
+    font-weight:600;
+    color:#121113;
+  }
+  .bio-card p{
+    margin:2px 0;
+    color:#333333;
+  }
+  .bio-card::after{
+    content:"";
+    position:absolute;
+    left:12%;
+    right:12%;
+    bottom:-12px;
+    height:16px;
+    border-radius:50%;
+    background:radial-gradient(ellipse at center,
+      rgba(0,0,0,0.22) 0%,
+      rgba(0,0,0,0) 70%);
+    pointer-events:none;
+  }
   .viewer-controls{
     position:fixed;
-    left:360px;
-    right:16px;
+    left:320px;
+    right:24px;
     bottom:16px;
-    max-width:380px;
-    margin:0;
-    padding:4px;
+    height:88px;
+    max-width:600px;
+    margin:0 auto;
+    padding:8px 10px;
     background:rgba(247,247,242,0.96);
     border:1px solid var(--beige);
-    border-radius:12px;
+    border-radius:14px;
     box-shadow:0 12px 28px rgba(0,0,0,0.12);
     color:var(--carbon-black);
     font-family:-apple-system,BlinkMacSystemFont,sans-serif;
@@ -171,16 +169,12 @@
     </div>
   </nav>
 
-  <aside class="bio-card">
-    <div class="bio-label">Profile</div>
-    <h2 class="bio-title">Your Name</h2>
-    <div class="bio-photo"></div>
-    <p class="bio-text">Filler bio copy goes here. Share a quick intro, current focus, favorite tools, and a highlight project or two. Use this space to tell people what drives you and how to reach out.
-
-Add a brief tagline, a short list of specialties, or a motto that captures your vibe.</p>
-  </aside>
-
   <div id="stage"></div>
+  <div class="bio-card">
+    <h2>Sahil Puri</h2>
+    <p>Graphics &amp; gameplay engineer.</p>
+    <p>Vulkan · real-time rendering · Jolt physics.</p>
+  </div>
   <div class="hint">Scroll = zoom · Right-drag = pan · Left-drag = orbit</div>
   <div class="badge">Viewer: PBR / Wireframe / Normals / UV / Matcap / Depth</div>
 
@@ -216,12 +210,12 @@ Add a brief tagline, a short list of specialties, or a motto that captures your 
     controls.enableZoom = false; // disable zoom per request
 
     // ---------- Lights ----------
-    const key = new THREE.DirectionalLight(0xffffff, 3.6); // stronger key
+    const key = new THREE.DirectionalLight(0xffffff, 3.0); // stronger key
     key.position.set(5, 6, 4);
 
-    const fill = new THREE.HemisphereLight(0xffffff, 0x666666, 1.6);
+    const fill = new THREE.HemisphereLight(0xffffff, 0x666666, 1.2);
 
-    const rim = new THREE.DirectionalLight(0xffffff, 1.9); // rim / back light
+    const rim = new THREE.DirectionalLight(0xffffff, 1.5); // rim / back light
     rim.position.set(-4, 3, -6);
 
     scene.add(key, fill, rim);
@@ -448,7 +442,20 @@ Add a brief tagline, a short list of specialties, or a motto that captures your 
     });
 
     // Go
-    loadModel();
+  loadModel();
+  </script>
+  <script>
+    const bioCard = document.querySelector('.bio-card');
+    if (bioCard){
+      window.addEventListener('mousemove', (e)=>{
+        const x = (e.clientX / window.innerWidth) - 0.5;
+        const y = (e.clientY / window.innerHeight) - 0.5;
+        const maxTilt = 4;
+        const rx = y * maxTilt;
+        const ry = -x * maxTilt;
+        bioCard.style.transform = `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+    }
   </script>
 </body>
 </html>
