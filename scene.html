@@ -197,31 +197,128 @@
     z-index:2;
   }
 
+  /* Root GUI container */
   .viewer-controls{
     position:fixed;
-    left:360px;
-    right:24px;
+    left:50%;
     bottom:16px;
-    height:88px;
-    max-width:600px;
-    margin:0 auto;
-    padding:8px 10px;
-    background:rgba(247,247,242,0.96);
-    border:1px solid var(--beige);
-    border-radius:14px;
-    box-shadow:0 12px 28px rgba(0,0,0,0.12);
-    color:var(--carbon-black);
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    transform:translateX(-50%);
     z-index:3;
-    pointer-events:auto;
-  }
-  .viewer-controls .title{
+
+    /* Layout & size */
+    min-width:420px;
+    max-width:640px;
+
+    /* New look */
+    background:rgba(247,247,242,0.96);            /* porcelain */
+    border-radius:18px;
+    border:1px solid var(--beige);
+    box-shadow:0 14px 36px rgba(0,0,0,0.16);
+
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     color:var(--carbon-black);
-    letter-spacing:0.05em;
+
+    padding:6px 10px;
+    display:flex;
+    flex-direction:column;
   }
+
+  /* Kill the default lil-gui dark chrome */
+  .viewer-controls.lil-gui{
+    background:transparent;
+    border:none;
+  }
+
+  /* Header/title row */
+  .viewer-controls .title{
+    margin:0 0 4px;
+    padding:0 4px;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--carbon-black);
+    opacity:0.7;
+  }
+
+  /* Controllers row container */
+  .viewer-controls .children{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 10px;
+  }
+
+  /* Each controller row */
   .viewer-controls .controller{
-    border-color:rgba(137,152,120,0.25);
+    background:transparent !important;
+    border:none !important;
+    padding:4px 0;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
   }
+
+  /* Label on the left */
+  .viewer-controls .controller .name{
+    color:#555;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+
+  /* Display / input area */
+  .viewer-controls .controller .display{
+    flex:1;
+  }
+
+  /* Inputs, sliders, selects etc. */
+  .viewer-controls input,
+  .viewer-controls select{
+    width:100%;
+    border-radius:999px;
+    border:1px solid rgba(137,152,120,0.4);
+    background:#ffffff;
+    color:var(--carbon-black);
+    padding:3px 8px;
+    font-size:12px;
+    outline:none;
+    box-shadow:none;
+  }
+
+  .viewer-controls input[type="range"]{
+    padding:0;
+    height:4px;
+    border-radius:999px;
+    border:none;
+    background:rgba(137,152,120,0.25);
+  }
+
+  /* Buttons (like ResetCamera) */
+  .viewer-controls button{
+    border-radius:999px;
+    border:1px solid rgba(137,152,120,0.6);
+    background:#ffffff;
+    color:var(--carbon-black);
+    padding:4px 10px;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    cursor:pointer;
+  }
+  .viewer-controls button:hover{
+    background:var(--beige);
+  }
+
+  /* Hide resize handle & folder toggles for a cleaner look */
+  .viewer-controls .children .children{
+    border:none;
+  }
+  .viewer-controls .close-button,
+  .viewer-controls .reset{
+    display:none;
+  }
+
 </style>
 
 </head>
