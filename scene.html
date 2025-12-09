@@ -290,13 +290,15 @@
   .viewer-controls{
     position:fixed;
     left:50%;
-    bottom:16px;
+    bottom:10px;
     transform:translateX(-50%);
     z-index:4;
 
     width:auto;
-    min-width:280px;
-    max-width:420px;
+    min-width:260px;
+    max-width:380px;
+    max-height:220px;
+    overflow:auto;
 
     background:rgba(247,247,242,0.97);
     backdrop-filter:blur(14px);
@@ -306,7 +308,9 @@
     box-shadow:0 16px 40px rgba(0,0,0,0.18);
 
     padding:6px 10px;
-    display:block;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
     pointer-events:auto;
     font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     color:var(--carbon-black);
