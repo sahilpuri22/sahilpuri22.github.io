@@ -198,23 +198,26 @@
   }
   .side-panel-right{
     position:fixed;
-    top:80px;                   /* below nav */
-    right:32px;                 /* away from edge */
-    bottom:40px;                /* leave room above bottom controls */
-    width:min(420px, 38vw);     /* similar scale to bio panel */
+    top:80px;                       /* below nav */
+    right:32px;                     /* away from edge */
+    bottom:40px;                    /* leave some space above bottom */
+    width:min(420px, 38vw);         /* similar dominance to bio panel */
+
     z-index:3;
-    display:flex;
-    flex-direction:column;
+    overflow:hidden;                /* clip panels so they come in/out at edges */
     pointer-events:auto;
   }
+
   .right-panel-scroll{
-    flex:1;
+    position:absolute;
+    inset:0;                        /* fill parent */
+    padding-right:4px;              /* small breathing room */
     overflow-y:auto;
     display:flex;
     flex-direction:column;
     gap:16px;
-    padding:0;
   }
+
   .info-panel{
     background:rgba(255,255,255,0.94);
     backdrop-filter:blur(14px);
@@ -222,25 +225,36 @@
     border:1px solid rgba(137,152,120,0.35);
     box-shadow:0 16px 40px rgba(0,0,0,0.2);
     overflow:hidden;
+
+    /* subtle 3D tilt – right side further from viewer */
     transform-origin:right center;
-    transform:translateZ(0) rotateY(-4deg);
+    transform:translateZ(0) rotateY(-6deg);
     transition:transform 0.2s ease-out, box-shadow 0.2s ease-out;
   }
+
   .info-panel:hover{
-    transform:translateZ(0) rotateY(-2deg) translateY(-2px);
+    transform:translateZ(0) rotateY(-3deg) translateY(-2px);
     box-shadow:0 22px 50px rgba(0,0,0,0.24);
   }
+
   .panel-photo{
-    height:190px;
-    background:linear-gradient(135deg, rgba(137,152,120,0.6), rgba(228,230,195,0.5));
+    height:180px;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(137,152,120,0.6),
+        rgba(228,230,195,0.5)
+      );
     position:relative;
   }
+
   .panel-photo img{
     width:100%;
     height:100%;
     object-fit:cover;
     display:block;
   }
+
   .panel-photo::after{
     content:"";
     position:absolute;
@@ -249,15 +263,18 @@
     mix-blend-mode:screen;
     pointer-events:none;
   }
+
   .panel-content{
     padding:12px 16px 16px;
   }
+
   .panel-content h3{
     margin:0 0 6px;
     font-size:15px;
     font-weight:600;
     color:var(--carbon-black);
   }
+
   .panel-content p{
     margin:0;
     font-size:13px;
