@@ -66,16 +66,14 @@
     border-color:var(--beige);
   }
 
-  /* Left panel + viewer layout */
+  /* Left bio panel */
   .bio-panel{
     position:fixed;
-    /* float within viewport, not touching edges */
-    top:80px;                     /* a bit below the nav */
-    left:56px;                    /* away from the left edge */
+    top:80px;
+    left:56px;
     bottom:80px;
 
-    /* larger, dominant on left third */
-    width:min(520px, 42vw);       /* much bigger */
+    width:min(520px, 42vw);
     max-height:calc(100vh - 80px - 40px);
 
     background:rgba(255,255,255,0.94);
@@ -93,15 +91,12 @@
     overflow:hidden;
 
     transform-origin:left center;
-    /* left edge slightly closer, right edge further */
-    transform:translateZ(0) rotateY(5deg);
+    transform:translateZ(0) rotateY(5deg); /* left edge closer */
     transition:
       transform 0.15s ease-out,
       box-shadow 0.15s ease-out,
       background 0.15s ease-out;
   }
-
-
 
   .bio-photo{
     padding:18px 0 10px;
@@ -129,7 +124,6 @@
     mix-blend-mode:screen;
     pointer-events:none;
   }
-  /* Optional: if you later add an img tag, it will sit inside this circle */
   .bio-photo-inner img{
     width:100%;
     height:100%;
@@ -162,17 +156,112 @@
     color:#333333;
   }
 
+  /* Right project panel – same language as bio, mirrored */
+  .project-panel{
+    position:fixed;
+    top:80px;
+    right:56px;
+    bottom:80px;
+
+    width:min(520px, 42vw);
+    max-height:calc(100vh - 80px - 40px);
+
+    background:rgba(255,255,255,0.94);
+    backdrop-filter:blur(16px);
+
+    border-radius:22px;
+    border:1px solid rgba(137,152,120,0.4);
+    box-shadow:
+      0 26px 60px rgba(0,0,0,0.24),
+      0 0 0 1px rgba(255,255,255,0.6);
+
+    z-index:3;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+
+    transform-origin:right center;
+    transform:translateZ(0) rotateY(-5deg); /* right edge closer to screen plane, left slightly back */
+    transition:
+      transform 0.15s ease-out,
+      box-shadow 0.15s ease-out,
+      background 0.15s ease-out;
+  }
+
+  .project-photo{
+    height:220px;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(137,152,120,0.7),
+        rgba(228,230,195,0.5)
+      );
+    position:relative;
+  }
+  .project-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .project-photo::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 20% 15%, rgba(255,255,255,0.55), transparent 55%);
+    mix-blend-mode:screen;
+    pointer-events:none;
+  }
+
+  .project-content{
+    padding:16px 18px 10px;
+    flex:1;
+    overflow-y:auto;
+  }
+  .project-title{
+    margin:0 0 6px;
+    font-size:16px;
+    font-weight:600;
+    color:var(--carbon-black);
+  }
+  .project-text{
+    margin:0;
+    font-size:14px;
+    line-height:1.6;
+    color:#333333;
+  }
+
+  .project-dots{
+    padding:10px 16px 16px;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+  }
+  .project-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    border:1px solid rgba(137,152,120,0.6);
+    background:transparent;
+    padding:0;
+    cursor:pointer;
+    transition:background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  }
+  .project-dot.active{
+    background:var(--palm-leaf);
+    border-color:var(--palm-leaf);
+    transform:scale(1.1);
+  }
+
   /* 3D stage behind floating panels */
   #stage{
     position:absolute;
-    top:56px;            /* below navbar */
+    top:56px;   /* below navbar */
     left:0;
     right:0;
-    bottom:0;            /* fill to bottom */
+    bottom:0;
     z-index:1;
   }
-
-
 
   .hint{
     position:fixed;
@@ -196,214 +285,101 @@
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     z-index:2;
   }
-  .side-panel-right{
-    position:fixed;
-    top:80px;                       /* below nav */
-    right:32px;                     /* away from edge */
-    bottom:40px;                    /* leave some space above bottom */
-    width:min(420px, 38vw);         /* similar dominance to bio panel */
 
-    z-index:3;
-    overflow:hidden;                /* clip panels so they come in/out at edges */
-    pointer-events:auto;
-  }
-
-  .right-panel-scroll{
-    position:absolute;
-    inset:0;                        /* fill parent */
-    padding-right:4px;              /* small breathing room */
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-  }
-
-  .info-panel{
-    background:rgba(255,255,255,0.94);
-    backdrop-filter:blur(14px);
-    border-radius:18px;
-    border:1px solid rgba(137,152,120,0.35);
-    box-shadow:0 16px 40px rgba(0,0,0,0.2);
-    overflow:hidden;
-
-    /* subtle 3D tilt – right side further from viewer */
-    transform-origin:right center;
-    transform:translateZ(0) rotateY(-6deg);
-    transition:transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  }
-
-  .info-panel:hover{
-    transform:translateZ(0) rotateY(-3deg) translateY(-2px);
-    box-shadow:0 22px 50px rgba(0,0,0,0.24);
-  }
-
-  .panel-photo{
-    height:180px;
-    background:
-      linear-gradient(
-        135deg,
-        rgba(137,152,120,0.6),
-        rgba(228,230,195,0.5)
-      );
-    position:relative;
-  }
-
-  .panel-photo img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-  }
-
-  .panel-photo::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle at 20% 15%, rgba(255,255,255,0.55), transparent 55%);
-    mix-blend-mode:screen;
-    pointer-events:none;
-  }
-
-  .panel-content{
-    padding:12px 16px 16px;
-  }
-
-  .panel-content h3{
-    margin:0 0 6px;
-    font-size:15px;
-    font-weight:600;
-    color:var(--carbon-black);
-  }
-
-  .panel-content p{
-    margin:0;
-    font-size:13px;
-    line-height:1.6;
-    color:#333333;
-  }
-
-  /* Root GUI container */
+  /* Compact floating control bar */
   .viewer-controls{
     position:fixed;
     left:50%;
     bottom:16px;
     transform:translateX(-50%);
-    z-index:3;
+    z-index:4;
 
-    /* Layout & size */
-    min-width:420px;
-    max-width:640px;
+    width:auto;
+    min-width:280px;
+    max-width:420px;
 
-    /* New look */
-    background:rgba(247,247,242,0.96);            /* porcelain */
-    border-radius:18px;
+    background:rgba(247,247,242,0.97);
+    backdrop-filter:blur(14px);
+
+    border-radius:16px;
     border:1px solid var(--beige);
-    box-shadow:0 14px 36px rgba(0,0,0,0.16);
-
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-    color:var(--carbon-black);
+    box-shadow:0 16px 40px rgba(0,0,0,0.18);
 
     padding:6px 10px;
-    display:flex;
-    flex-direction:column;
+    display:block;
+    pointer-events:auto;
+    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+    color:var(--carbon-black);
   }
-
-  /* Kill the default lil-gui dark chrome */
   .viewer-controls.lil-gui{
     background:transparent;
     border:none;
   }
-
-  /* Header/title row */
   .viewer-controls .title{
-    margin:0 0 4px;
-    padding:0 4px;
-    font-size:11px;
+    font-size:10px;
     font-weight:600;
-    letter-spacing:0.14em;
+    letter-spacing:0.12em;
     text-transform:uppercase;
-    color:var(--carbon-black);
-    opacity:0.7;
+    opacity:0.6;
+    margin:2px 0 6px;
+    text-align:center;
   }
-
-  /* Controllers row container */
   .viewer-controls .children{
     display:flex;
-    flex-wrap:wrap;
-    gap:6px 10px;
+    flex-direction:column;
+    gap:6px;
   }
-
-  /* Each controller row */
   .viewer-controls .controller{
+    padding:2px 0;
     background:transparent !important;
     border:none !important;
-    padding:4px 0;
-    display:flex;
-    align-items:center;
-    gap:6px;
     font-size:12px;
   }
-
-  /* Label on the left */
   .viewer-controls .controller .name{
     color:#555;
     font-size:11px;
     text-transform:uppercase;
     letter-spacing:0.08em;
   }
-
-  /* Display / input area */
   .viewer-controls .controller .display{
-    flex:1;
+    width:100%;
   }
-
-  /* Inputs, sliders, selects etc. */
   .viewer-controls input,
   .viewer-controls select{
     width:100%;
+    max-width:100%;
     border-radius:999px;
     border:1px solid rgba(137,152,120,0.4);
-    background:#ffffff;
+    background:#fff;
     color:var(--carbon-black);
     padding:3px 8px;
     font-size:12px;
     outline:none;
     box-shadow:none;
   }
-
   .viewer-controls input[type="range"]{
-    padding:0;
     height:4px;
-    border-radius:999px;
     border:none;
-    background:rgba(137,152,120,0.25);
+    background:rgba(137,152,120,0.3);
   }
-
-  /* Buttons (like ResetCamera) */
   .viewer-controls button{
+    width:100%;
     border-radius:999px;
     border:1px solid rgba(137,152,120,0.6);
-    background:#ffffff;
-    color:var(--carbon-black);
-    padding:4px 10px;
+    background:#fff;
     font-size:11px;
     text-transform:uppercase;
     letter-spacing:0.08em;
+    padding:4px 10px;
     cursor:pointer;
   }
   .viewer-controls button:hover{
     background:var(--beige);
   }
-
-  /* Hide resize handle & folder toggles for a cleaner look */
-  .viewer-controls .children .children{
-    border:none;
-  }
   .viewer-controls .close-button,
   .viewer-controls .reset{
     display:none;
   }
-
 </style>
 
 </head>
@@ -420,10 +396,11 @@
     </div>
   </nav>
 
+  <!-- Left bio panel -->
   <div class="bio-panel">
     <div class="bio-photo">
       <div class="bio-photo-inner">
-        <!-- Optional: put <img src="media/portrait.jpg" alt="Sahil"> here later -->
+        <!-- Optional: <img src="media/portrait.jpg" alt="Sahil"> -->
       </div>
     </div>
     <div class="bio-content">
@@ -447,49 +424,20 @@
     </div>
   </div>
 
-  <div id="stage"></div>
-  <div class="side-panel-right">
-    <div class="right-panel-scroll">
-      <article class="info-panel">
-        <div class="panel-photo">
-          <!-- later: <img src="media/project1.jpg" alt="Project shot"> -->
-        </div>
-        <div class="panel-content">
-          <h3>Project One</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-        </div>
-      </article>
-
-      <article class="info-panel">
-        <div class="panel-photo">
-          <!-- photo placeholder -->
-        </div>
-        <div class="panel-content">
-          <h3>Project Two</h3>
-          <p>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
-          </p>
-        </div>
-      </article>
-
-      <article class="info-panel">
-        <div class="panel-photo">
-          <!-- photo placeholder -->
-        </div>
-        <div class="panel-content">
-          <h3>Project Three</h3>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-            dolore eu fugiat nulla pariatur.
-          </p>
-        </div>
-      </article>
+  <!-- Right project panel (carousel) -->
+  <div class="project-panel">
+    <div class="project-photo">
+      <!-- Optional: <img> will go here -->
     </div>
+    <div class="project-content">
+      <h3 class="project-title"></h3>
+      <p class="project-text"></p>
+    </div>
+    <div class="project-dots"></div>
   </div>
+
+  <div id="stage"></div>
+
   <div class="hint">Scroll = zoom · Right-drag = pan · Left-drag = orbit</div>
   <div class="badge">Viewer: PBR / Wireframe / Normals / UV / Matcap / Depth</div>
 
@@ -569,7 +517,6 @@
     }
     const uvChecker = makeChecker();
 
-    // Custom shaders for view/world normals & depth
     const normalVisMat = new THREE.ShaderMaterial({
       vertexShader: /* glsl */`
         varying vec3 vNormalVS;
@@ -702,7 +649,7 @@
       const shadowAlpha = 0.18 + (k-1.0)*0.05;
       bioPanel.style.background = `rgba(255,255,255,${bgAlpha.toFixed(2)})`;
       bioPanel.style.boxShadow =
-        `8px 0 30px rgba(0,0,0,${shadowAlpha.toFixed(2)}), inset -1px 0 0 rgba(255,255,255,0.6)`;
+        `0 26px 60px rgba(0,0,0,${shadowAlpha.toFixed(2)}), 0 0 0 1px rgba(255,255,255,0.6)`;
     }
 
     // ---------- GUI ----------
@@ -733,7 +680,7 @@
     });
     gui.add(params, "Exposure", 0.2, 2.5, 0.01).onChange(v=>{
       renderer.toneMappingExposure = v;
-      updatePanelForExposure(v);  // sync panel lighting
+      updatePanelForExposure(v);
     });
     gui.add(params, "ResetCamera");
     gui.domElement.classList.add("viewer-controls");
@@ -763,26 +710,111 @@
     // Go
     loadModel();
   </script>
+
+  <!-- Tilt for bio panel + project carousel logic -->
   <script>
-  const bioPanelEl = document.querySelector('.bio-panel');
-  if (bioPanelEl){
-    const baseRotY = 5;        // left edge closer, right further
-    const maxDeltaY = 1.5;     // small side-to-side variation
-    const maxDeltaX = 1.0;     // small up/down tilt
+    // Bio panel subtle tilt
+    const bioPanelEl = document.querySelector('.bio-panel');
+    if (bioPanelEl){
+      const baseRotY = 5;
+      const maxDeltaY = 1.5;
+      const maxDeltaX = 1.0;
 
-    window.addEventListener('mousemove', (e)=>{
-      const x = (e.clientX / window.innerWidth) - 0.5; // -0.5..0.5
-      const y = (e.clientY / window.innerHeight) - 0.5;
+      window.addEventListener('mousemove', (e)=>{
+        const x = (e.clientX / window.innerWidth) - 0.5;
+        const y = (e.clientY / window.innerHeight) - 0.5;
 
-      const rx = y * maxDeltaX;           // very subtle X tilt
-      const ry = baseRotY + (x * maxDeltaY); // vary around +5deg
+        const rx = y * maxDeltaX;
+        const ry = baseRotY + (x * maxDeltaY);
 
-      bioPanelEl.style.transform =
-        `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        bioPanelEl.style.transform =
+          `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+    }
+
+    // Project carousel
+    const projectPanel = document.querySelector('.project-panel');
+    if (projectPanel){
+      const photoEl = projectPanel.querySelector('.project-photo');
+      const titleEl = projectPanel.querySelector('.project-title');
+      const textEl  = projectPanel.querySelector('.project-text');
+      const dotsEl  = projectPanel.querySelector('.project-dots');
+
+      const projects = [
+        {
+          title: "Vulkan PBR Renderer",
+          text: "Deferred renderer with physically based shading, image-based lighting, and SSAO/HBAO experiments.",
+          gradient: "linear-gradient(135deg, rgba(137,152,120,0.7), rgba(228,230,195,0.5))"
+        },
+        {
+          title: "Jolt Vehicle Sandbox",
+          text: "Custom vehicle physics sandbox integrating Jolt with a bespoke entity-component system and debug tooling.",
+          gradient: "linear-gradient(135deg, rgba(34,39,37,0.8), rgba(137,152,120,0.6))"
+        },
+        {
+          title: "OpenGL AO Playground",
+          text: "Screen-space ambient occlusion playground comparing kernels, noise patterns, and reconstruction strategies.",
+          gradient: "linear-gradient(135deg, rgba(228,230,195,0.7), rgba(137,152,120,0.6))"
+        }
+      ];
+
+      let currentIndex = 0;
+      let autoTimer = null;
+
+      function renderProject(index){
+        const p = projects[index];
+        titleEl.textContent = p.title;
+        textEl.textContent  = p.text;
+        photoEl.style.backgroundImage = p.gradient;
+
+        // dots
+        Array.from(dotsEl.children).forEach((dot, i)=>{
+          dot.classList.toggle('active', i === index);
+        });
+      }
+
+      function nextProject(){
+        currentIndex = (currentIndex + 1) % projects.length;
+        renderProject(currentIndex);
+      }
+
+      function resetTimer(){
+        if (autoTimer) clearInterval(autoTimer);
+        autoTimer = setInterval(nextProject, 7000); // 7s per project
+      }
+
+      // Create dots
+      projects.forEach((p, i)=>{
+        const dot = document.createElement('button');
+        dot.type = "button";
+        dot.className = 'project-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', ()=>{
+          currentIndex = i;
+          renderProject(currentIndex);
+          resetTimer();
+        });
+        dotsEl.appendChild(dot);
+      });
+
+      renderProject(currentIndex);
+      resetTimer();
+
+      // Optional: slight hover tilt on the project panel
+      const baseRotYProj = -5;
+      const maxDeltaYProj = 1.5;
+      const maxDeltaXProj = 1.0;
+
+      window.addEventListener('mousemove', (e)=>{
+        const x = (e.clientX / window.innerWidth) - 0.5;
+        const y = (e.clientY / window.innerHeight) - 0.5;
+
+        const rx = y * maxDeltaXProj;
+        const ry = baseRotYProj + (x * maxDeltaYProj);
+
+        projectPanel.style.transform =
+          `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
       });
     }
   </script>
-
-
 </body>
 </html>
