@@ -286,24 +286,24 @@
     z-index:2;
   }
 
-  /* Compact floating control bar */
+  /* Compact floating control bar INSIDE the stage */
   .viewer-controls{
-    position:fixed;
-    left:50%;
-    bottom:10px;
-    top:auto;  /* override lil-gui default top:0 so it doesn't stretch full height */
-    right:auto;
+    position:absolute;
+    left:50% !important;
+    bottom:16px !important;
+    top:auto !important;
+    right:auto !important;
     transform:translateX(-50%);
     z-index:4;
 
     width:auto;
     min-width:260px;
     max-width:380px;
-    max-height:220px;
+    max-height:180px;
     overflow:auto;
 
-    background:rgba(247,247,242,0.97);
-    backdrop-filter:blur(14px);
+    background:rgba(247,247,242,0.95);
+    backdrop-filter:blur(10px);
 
     border-radius:16px;
     border:1px solid var(--beige);
@@ -318,8 +318,8 @@
     color:var(--carbon-black);
   }
   .viewer-controls.lil-gui{
-    background:transparent;
-    border:none;
+    margin:0 !important;
+    height:auto !important;
   }
   .viewer-controls .title{
     font-size:10px;
@@ -660,6 +660,10 @@
 
     // ---------- GUI ----------
     const gui = new GUI({title:"Viewer"});
+    // Move GUI into the stage so it overlays the viewer only
+    container.appendChild(gui.domElement);
+    gui.domElement.classList.add("viewer-controls");
+
     const params = {
       Mode: currentMode,
       ViewSpaceNormals: true,
@@ -689,7 +693,6 @@
       updatePanelForExposure(v);
     });
     gui.add(params, "ResetCamera");
-    gui.domElement.classList.add("viewer-controls");
 
     // Initial panel sync
     updatePanelForExposure(params.Exposure);
