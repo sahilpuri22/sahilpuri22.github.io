@@ -445,7 +445,7 @@
   <div id="stage"></div>
 
   <div class="hint">Scroll = zoom · Right-drag = pan · Left-drag = orbit</div>
-  <div class="badge">Viewer: PBR / Wireframe / Normals / UV / Matcap / Depth</div>
+  <div class="badge">Viewer: PBR / Clay / Surface Normals / UV Checker / Topology</div>
 
   <!-- Three.js & helpers (CDN) -->
   <script type="module">
@@ -503,7 +503,7 @@
     } catch(e){ /* no HDR, fine */ }
 
     // ---------- Materials / Modes ----------
-    const texLoader = new THREE.TextureLoader().setCrossOrigin('anonymous');
+    const texLoader = new THREE.TextureLoader();
     function makeChecker(size=512, squares=8){
       const c = document.createElement('canvas');
       c.width = c.height = size;
@@ -525,60 +525,30 @@
 
     const normalVisMat = new THREE.ShaderMaterial({
       vertexShader: /* glsl */`
-        varying vec3 vNormalVS;
         varying vec3 vNormalWS;
         void main(){
           vNormalWS = normalize(normalMatrix * normal);
           vec4 mv = modelViewMatrix * vec4(position,1.0);
-          vNormalVS = normalize(mat3(modelViewMatrix) * normal);
           gl_Position = projectionMatrix * mv;
         }`,
       fragmentShader: /* glsl */`
-        varying vec3 vNormalVS;
         varying vec3 vNormalWS;
-        uniform bool viewSpace;
         void main(){
-          vec3 n = normalize(viewSpace ? vNormalVS : vNormalWS);
-          n = n * 0.5 + 0.5;
+          vec3 n = normalize(vNormalWS) * 0.5 + 0.5;
           gl_FragColor = vec4(n,1.0);
-        }`,
-      uniforms: { viewSpace: {value: true} }
+        }`
     });
 
-    const depthVisMat = new THREE.ShaderMaterial({
-      vertexShader: /* glsl */`
-        varying float vDepth;
-        void main(){
-          vec4 mv = modelViewMatrix * vec4(position,1.0);
-          vDepth = -mv.z;
-          gl_Position = projectionMatrix * mv;
-        }`,
-      fragmentShader: /* glsl */`
-        varying float vDepth;
-        uniform float near;
-        uniform float far;
-        float linear01(float z){ return (z - near) / (far - near); }
-        void main(){
-          float d = clamp(linear01(vDepth), 0.0, 1.0);
-          gl_FragColor = vec4(vec3(d), 1.0);
-        }`,
-      uniforms: { near:{value: camera.near}, far:{value: camera.far} }
-    });
-
-    const matcap = texLoader.load("https://raw.githubusercontent.com/nidorx/matcaps/master/256/6C6C6C_9C9C9C_DDDDDD_FFFFFF-256px.png");
+    const matcap = texLoader.load("assets/matcap-gray.png");
     matcap.colorSpace = THREE.SRGBColorSpace;
 
     const materials = {
       PBR: new THREE.MeshStandardMaterial({color:"#899878", metalness:0.25, roughness:0.45, envMapIntensity:1.35}),
-      Wireframe: new THREE.MeshBasicMaterial({color:"#f2e9e4", wireframe:true}),
-      UV_Checker: new THREE.MeshBasicMaterial({map: uvChecker}),
-      Matcap: new THREE.MeshMatcapMaterial({matcap}),
-      Normals_View: normalVisMat,
-      Normals_World: normalVisMat.clone(),
-      Depth: depthVisMat
+      Clay: new THREE.MeshMatcapMaterial({matcap}),
+      "Surface Normals": normalVisMat,
+      "UV Checker": new THREE.MeshBasicMaterial({map: uvChecker}),
+      Topology: new THREE.MeshBasicMaterial({color:"#222725", wireframe:true, transparent:true, opacity:0.35})
     };
-    materials.Normals_View.uniforms.viewSpace.value = true;
-    materials.Normals_World.uniforms.viewSpace.value = false;
 
     // ---------- Load model (fallback if missing) ----------
     let modelRoot = new THREE.Group();
@@ -619,8 +589,6 @@
       camera.near = Math.max(0.01, dist/100);
       camera.far = dist*100;
       camera.updateProjectionMatrix();
-      depthVisMat.uniforms.near.value = camera.near;
-      depthVisMat.uniforms.far.value = camera.far;
       controls.target.copy(center);
       controls.update();
     }
@@ -637,12 +605,11 @@
     let currentMode = "PBR";
     function applyMaterial(mode){
       currentMode = mode;
-      const useEnv = (mode === "PBR" || mode === "Matcap");
-      scene.environment = useEnv ? envMap : null;
-      key.visible = (mode === "PBR" || mode === "UV_Checker" || mode.startsWith("Normals") || mode==="Depth");
-      fill.visible = key.visible;
-      if (mode === "Matcap") { key.visible = fill.visible = false; }
-      const mat = materials[mode];
+      const allowEnv = (mode === "PBR" || mode === "Clay");
+      scene.environment = allowEnv ? envMap : null;
+      const useLights = (mode === "PBR");
+      key.visible = fill.visible = rim.visible = useLights;
+      const mat = materials[mode] || materials.PBR;
       setMaterialRecursive(modelRoot, mat);
     }
 
@@ -659,27 +626,21 @@
     }
 
     // ---------- GUI ----------
-    const gui = new GUI({title:"Viewer2"});
+    const gui = new GUI({title:"Settings"});
     // Move GUI into the stage so it overlays the viewer only
     container.appendChild(gui.domElement);
     gui.domElement.classList.add("viewer-controls");
 
     const params = {
       Mode: currentMode,
-      ViewSpaceNormals: true,
+      AutoRotate: true,
       ToneMapping: "ACES",
       Exposure: 1.25,
-      ResetCamera(){ fitCameraToObject(modelRoot); }
+      Roughness: materials.PBR.roughness
     };
 
-    gui.add(params, "Mode", Object.keys(materials)).onChange(applyMaterial);
-    gui.add(params, "ViewSpaceNormals").onChange(v=>{
-      materials.Normals_View.uniforms.viewSpace.value = true;
-      materials.Normals_World.uniforms.viewSpace.value = false;
-      if (currentMode.startsWith("Normals")){
-        applyMaterial(v ? "Normals_View" : "Normals_World");
-      }
-    });
+    gui.add(params, "Mode", ["PBR","Clay","Surface Normals","UV Checker","Topology"]).onChange(applyMaterial);
+    gui.add(params, "Auto Rotate");
     gui.add(params, "ToneMapping", ["ACES","Reinhard","Linear","None"]).onChange(v=>{
       renderer.toneMapping = ({
         "ACES": THREE.ACESFilmicToneMapping,
@@ -692,7 +653,9 @@
       renderer.toneMappingExposure = v;
       updatePanelForExposure(v);
     });
-    gui.add(params, "ResetCamera");
+    gui.add(params, "Roughness", 0.05, 1.0, 0.01).onChange(v=>{
+      materials.PBR.roughness = v;
+    });
 
     // Initial panel sync
     updatePanelForExposure(params.Exposure);
@@ -703,7 +666,7 @@
     function tick(){
       const dt = clock.getDelta();
       controls.update();
-      if (modelRoot) modelRoot.rotation.y += spinSpeed * dt;
+      if (params.AutoRotate && modelRoot) modelRoot.rotation.y += spinSpeed * dt;
       renderer.render(scene, camera);
       requestAnimationFrame(tick);
     }
