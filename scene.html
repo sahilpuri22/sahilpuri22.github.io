@@ -19,10 +19,10 @@
     --carbon-black:#222725;
     --onyx:        #121113;
   }
-  html,body{
+html,body{
     height:100%;
     margin:0;
-    background:#ffffff;
+    background:#f7f7f2;
     color:#000000;
     font-family:-apple-system,BlinkMacSystemFont,sans-serif;
     perspective:1000px; /* helps 3D tilt feel better */
@@ -73,10 +73,10 @@
     left:56px;
     bottom:80px;
 
-    width:min(520px, 42vw);
+    width:min(420px, 32vw);
     max-height:calc(100vh - 80px - 40px);
 
-    background:rgba(255,255,255,0.94);
+    background:rgba(255,255,255,0.88);
     backdrop-filter:blur(16px);
 
     border-radius:22px;
@@ -163,10 +163,10 @@
     right:56px;
     bottom:80px;
 
-    width:min(520px, 42vw);
+    width:min(420px, 32vw);
     max-height:calc(100vh - 80px - 40px);
 
-    background:rgba(255,255,255,0.94);
+    background:rgba(255,255,255,0.88);
     backdrop-filter:blur(16px);
 
     border-radius:22px;
@@ -197,6 +197,9 @@
         rgba(228,230,195,0.5)
       );
     position:relative;
+    overflow:hidden;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
   }
   .project-photo img{
     width:100%;
@@ -286,106 +289,476 @@
     z-index:2;
   }
 
-  /* Compact floating control bar INSIDE the stage */
-  .viewer-controls{
-    position:absolute;
-    left:50% !important;
-    bottom:16px !important;
-    top:auto !important;
-    right:auto !important;
-    transform:translateX(-50%);
-    z-index:4;
+/* ========================================================================== */
+/*  Compact floating control bar INSIDE the stage                             */
+/* ========================================================================== */
 
-    width:auto;
-    min-width:260px;
-    max-width:380px;
-    max-height:180px;
-    overflow:auto;
+.viewer-controls {
+  position: absolute;
+  left: 50% !important;
+  bottom: 16px !important;
+  top: auto !important;
+  right: auto !important;
+  transform: translateX(-50%);
+  z-index: 6;
+  transform-origin: bottom center;
 
-    background:rgba(247,247,242,0.95);
-    backdrop-filter:blur(10px);
+  width: auto;
+  min-width: 260px;
+  max-width: 380px;
+  max-height: 180px;
+  overflow: auto;
 
-    border-radius:16px;
-    border:1px solid var(--beige);
-    box-shadow:0 16px 40px rgba(0,0,0,0.18);
+  /* light glass panel background */
+  background: rgba(247,247,242,0.95);
+  backdrop-filter: blur(10px);
 
-    padding:6px 10px;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    pointer-events:auto;
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-    color:var(--carbon-black);
+  border-radius: 16px;
+  border: 1px solid var(--beige);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: auto;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--carbon-black);
+}
+
+/* ========================================================================== */
+/*  lil-gui LIGHT THEME + VIEWER CONTROL STYLING                              */
+/* ========================================================================== */
+
+/* Main panel: force lil-gui to be light */
+.viewer-controls.lil-gui,
+.viewer-controls.lil-gui.root {
+  background: rgba(247,247,242,0.95) !important;
+  color: var(--carbon-black) !important;
+  border: 1px solid var(--beige) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18) !important;
+  margin: 0 !important;
+  height: auto !important;
+}
+
+/* Kill lil-gui's inset dark layer */
+.viewer-controls.lil-gui::before {
+  background: transparent !important;
+}
+
+/* Internal rows / labels inherit light look */
+.viewer-controls.lil-gui .children,
+.viewer-controls.lil-gui .folder,
+.viewer-controls.lil-gui .controller,
+.viewer-controls.lil-gui .widget,
+.viewer-controls.lil-gui .name,
+.viewer-controls.lil-gui .display,
+.viewer-controls.lil-gui .values {
+  background: transparent !important;
+  color: inherit !important;
+  border-color: rgba(137,152,120,0.4) !important;
+}
+
+/* Title bar: white pill, green text, slightly bigger & vertically centered */
+.viewer-controls .title {
+  background: transparent !important;
+  color: var(--carbon-black) !important;
+  padding: 0 !important;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  margin: 8px 0 6px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  align-self: center;
+}
+
+/* Layout for rows */
+.viewer-controls .children {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.viewer-controls .controller {
+  padding: 4px 8px;
+  background: transparent !important;
+  border: 1px solid var(--carbon-black) !important;
+  border-radius: 8px;
+  color: var(--carbon-black) !important;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Label text */
+.viewer-controls .controller .name {
+  color: #555;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ========================================================================== */
+/*  Inputs & dropdowns                                                        */
+/* ========================================================================== */
+
+.viewer-controls input,
+.viewer-controls select {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(137,152,120,0.4);
+  background: #ffffff;
+  color: var(--carbon-black);
+  padding: 3px 8px;
+  font-size: 12px;
+  outline: none;
+  box-shadow: none;
+}
+
+/* DISTINCT BUTTON STYLE FOR MODE + TONEMAPPING SELECTS */
+.viewer-controls.lil-gui select {
+  -webkit-appearance: none;
+  appearance: none;
+
+  background: var(--palm-leaf) !important;
+  color: var(--carbon-black) !important;
+  -webkit-text-fill-color: var(--carbon-black) !important;
+
+  border: 2px solid var(--carbon-black) !important;
+  border-radius: 12px !important;
+
+  padding: 6px 28px 6px 10px !important;   /* leave room for arrow */
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  cursor: pointer;
+}
+
+.viewer-controls.lil-gui select option {
+  color: var(--carbon-black);
+  background: #ffffff;
+}
+
+/* Replace lil-gui’s default widget box */
+.viewer-controls.lil-gui .widget {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Custom arrow icon in the select */
+.viewer-controls.lil-gui select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23899878' height='12' viewBox='0 0 24 24' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 12px;
+  background-position: right 8px center;
+}
+
+/* Hover / focus for selects */
+.viewer-controls.lil-gui select:hover,
+.viewer-controls.lil-gui select:focus {
+  background: var(--carbon-black) !important;
+  color: #ffffff !important;
+  border-color: var(--palm-leaf) !important;
+}
+
+/* Numeric value boxes next to sliders */
+.viewer-controls.lil-gui .display input {
+  background: #ffffff !important;
+  color: var(--palm-leaf) !important;
+  caret-color: var(--palm-leaf) !important;
+  border: 1px solid rgba(137,152,120,0.35) !important;
+  border-radius: 8px !important;
+}
+.viewer-controls.lil-gui .display {
+  color: var(--palm-leaf) !important;
+}
+
+/* ========================================================================== */
+/*  Minimal sliders — line + circular thumb                                   */
+/* ========================================================================== */
+
+.viewer-controls.lil-gui input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.viewer-controls.lil-gui input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(137,152,120,0.45);
+}
+
+.viewer-controls.lil-gui input[type="range"]::-moz-range-track {
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(137,152,120,0.45);
+}
+
+.viewer-controls.lil-gui input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--palm-leaf) !important;
+  border: 1px solid var(--carbon-black) !important;
+  margin-top: -6px;
+  cursor: pointer;
+}
+
+.viewer-controls.lil-gui input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--palm-leaf) !important;
+  border: 1px solid var(--carbon-black) !important;
+  cursor: pointer;
+}
+
+.viewer-controls.lil-gui .slider {
+  position: relative;
+  height: 20px;
+  margin-top: 4px;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.viewer-controls.lil-gui .slider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(137,152,120,0.45);
+  pointer-events: none;
+}
+
+.viewer-controls.lil-gui .slider .slider-fg {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--palm-leaf) !important;
+  pointer-events: none;
+}
+
+.viewer-controls.lil-gui .slider-thumb,
+.viewer-controls.lil-gui .slider .slider-fg .slider-thumb {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--palm-leaf) !important;
+  background-image: none !important;
+  border: 1px solid var(--carbon-black) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  transform: translate(50%, -50%);
+}
+
+.viewer-controls.lil-gui .slider .slider-fg::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--palm-leaf) !important;
+  border: 1px solid var(--carbon-black) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  pointer-events: none;
+}
+
+/* ========================================================================== */
+/*  Buttons (e.g. ResetCamera)                                                */
+/* ========================================================================== */
+
+.viewer-controls button {
+  width: 100%;
+  border-radius: 10px !important;
+  border: 2px solid var(--palm-leaf) !important;
+  background: var(--porcelain) !important;
+  color: var(--carbon-black) !important;
+  font-size: 11px;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.viewer-controls button:hover {
+  background: var(--beige) !important;
+}
+
+/* Hide lil-gui's tiny close/reset buttons if they appear */
+.viewer-controls .close-button,
+.viewer-controls .reset {
+  display: none !important;
+}
+
+/* ======================= TABLET ======================= */
+@media (max-width: 1024px) {
+  .nav-inner {
+    max-width: 100%;
+    padding: 10px 12px;
   }
-  .viewer-controls.lil-gui{
-    margin:0 !important;
-    height:auto !important;
+
+  .bio-panel,
+  .project-panel {
+    top: 76px;
+    bottom: 40px;
+    width: min(320px, 32vw);
   }
-  .viewer-controls .title{
-    font-size:10px;
-    font-weight:600;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    opacity:0.6;
-    margin:2px 0 6px;
-    text-align:center;
+
+  .hint,
+  .badge {
+    font-size: 11px;
+    bottom: 8px;
   }
-  .viewer-controls .children{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
+
+  .viewer-controls {
+    bottom: 8px !important;
+    max-width: 340px;
   }
-  .viewer-controls .controller{
-    padding:2px 0;
-    background:transparent !important;
-    border:none !important;
-    font-size:12px;
+}
+
+/* ======================= NARROW DESKTOP (pre-mobile) ======================= */
+@media (max-width: 900px) and (min-width: 769px) {
+  .bio-panel,
+  .project-panel {
+    width: min(280px, 30vw);
   }
-  .viewer-controls .controller .name{
-    color:#555;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
+}
+
+/* ======================= MOBILE ======================= */
+@media (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 56px;
   }
-  .viewer-controls .controller .display{
-    width:100%;
+
+  .nav {
+    order: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
   }
-  .viewer-controls input,
-  .viewer-controls select{
-    width:100%;
-    max-width:100%;
-    border-radius:999px;
-    border:1px solid rgba(137,152,120,0.4);
-    background:#fff;
-    color:var(--carbon-black);
-    padding:3px 8px;
-    font-size:12px;
-    outline:none;
-    box-shadow:none;
+
+  .nav-inner {
+    padding: 8px 10px;
+    gap: 8px;
   }
-  .viewer-controls input[type="range"]{
-    height:4px;
-    border:none;
-    background:rgba(137,152,120,0.3);
+
+  .tabs {
+    gap: 6px;
   }
-  .viewer-controls button{
-    width:100%;
-    border-radius:999px;
-    border:1px solid rgba(137,152,120,0.6);
-    background:#fff;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    padding:4px 10px;
-    cursor:pointer;
+
+  .tab {
+    padding: 4px 8px;
+    font-size: 12px;
   }
-  .viewer-controls button:hover{
-    background:var(--beige);
+
+  /* Panels become normal stacked blocks */
+  .bio-panel,
+  .project-panel {
+    order: 2;
+    position: static;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    margin: 16px 12px 10px;
+    transform: none;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    overflow: visible;
+    background: rgba(255,255,255,0.9);
   }
-  .viewer-controls .close-button,
-  .viewer-controls .reset{
-    display:none;
+
+  .project-panel {
+    margin-top: 10px;
+    order: 3;
   }
+
+  .bio-content,
+  .project-content {
+    overflow: visible;
+    max-height: none;
+  }
+
+  #stage {
+    order: 1;
+    position: relative;
+    top: 0;
+    bottom: auto;
+    height: min(60vh, 420px);
+    margin: 8px 12px 16px;
+    padding-bottom: 96px;
+  }
+
+  .viewer-controls {
+    position: absolute !important;
+    top: auto !important;
+    bottom: 12px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 48px);
+    max-width: 520px;
+    margin: 0;
+  }
+
+  .hint,
+  .badge {
+    display: none;
+  }
+}
+
+/* ======================= SMALL MOBILE ======================= */
+@media (max-width: 480px) {
+  .bio-panel,
+  .project-panel {
+    margin: 8px 8px 8px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.9);
+  }
+
+  #stage {
+    margin: 8px 8px 16px;
+    height: min(55vh, 360px);
+    padding-bottom: 88px;
+  }
+
+  .viewer-controls {
+    padding: 4px 8px;
+    border-radius: 14px;
+    width: calc(100% - 32px);
+  }
+}
+
+
+
+
+
+
 </style>
 
 </head>
@@ -444,8 +817,6 @@
 
   <div id="stage"></div>
 
-  <div class="hint">Scroll = zoom · Right-drag = pan · Left-drag = orbit</div>
-  <div class="badge">Viewer: PBR / Clay / Surface Normals / UV Checker / Topology</div>
 
   <!-- Three.js & helpers (CDN) -->
   <script type="module">
@@ -460,7 +831,6 @@
     const container = document.getElementById("stage");
     const renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.25;
@@ -471,6 +841,15 @@
 
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.05, 200);
     camera.position.set(2.5, 1.6, 3.0);
+
+    function resizeRenderer(){
+      const width = container.clientWidth || window.innerWidth;
+      const height = container.clientHeight || Math.min(window.innerHeight * 0.6, 420);
+      renderer.setSize(width, height);
+      camera.aspect = width / Math.max(height, 1);
+      camera.updateProjectionMatrix();
+    }
+    resizeRenderer();
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -657,6 +1036,8 @@
       materials.PBR.roughness = v;
     });
 
+    gui.close();
+
     // Initial panel sync
     updatePanelForExposure(params.Exposure);
 
@@ -673,10 +1054,9 @@
     tick();
 
     // Resize
-    window.addEventListener("resize", ()=>{
-      renderer.setSize(container.clientWidth, container.clientHeight);
-      camera.aspect = container.clientWidth/container.clientHeight;
-      camera.updateProjectionMatrix();
+    window.addEventListener("resize", resizeRenderer);
+    window.addEventListener("orientationchange", ()=>{
+      setTimeout(resizeRenderer, 150);
     });
 
     // Go
@@ -685,7 +1065,9 @@
 
   <!-- Tilt for bio panel + project carousel logic -->
   <script>
-    // Bio panel subtle tilt
+    const isMobileViewport = ()=> window.innerWidth <= 768;
+
+    // Bio panel subtle tilt (desktop only)
     const bioPanelEl = document.querySelector('.bio-panel');
     if (bioPanelEl){
       const baseRotY = 5;
@@ -693,6 +1075,10 @@
       const maxDeltaX = 1.0;
 
       window.addEventListener('mousemove', (e)=>{
+        if (isMobileViewport()){
+          bioPanelEl.style.transform = 'none';
+          return;
+        }
         const x = (e.clientX / window.innerWidth) - 0.5;
         const y = (e.clientY / window.innerHeight) - 0.5;
 
@@ -701,6 +1087,12 @@
 
         bioPanelEl.style.transform =
           `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+
+      window.addEventListener('resize', ()=>{
+        if (isMobileViewport()){
+          bioPanelEl.style.transform = 'none';
+        }
       });
     }
 
@@ -777,6 +1169,10 @@
       const maxDeltaXProj = 1.0;
 
       window.addEventListener('mousemove', (e)=>{
+        if (isMobileViewport()){
+          projectPanel.style.transform = 'none';
+          return;
+        }
         const x = (e.clientX / window.innerWidth) - 0.5;
         const y = (e.clientY / window.innerHeight) - 0.5;
 
@@ -785,6 +1181,12 @@
 
         projectPanel.style.transform =
           `translateZ(0) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      });
+
+      window.addEventListener('resize', ()=>{
+        if (isMobileViewport()){
+          projectPanel.style.transform = 'none';
+        }
       });
     }
   </script>
