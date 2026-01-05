@@ -1,22 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Projects | Sahil Puri</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <a class="brand" href="index.html">Sahil Puri</a>
-      <div class="tabs">
-        <a class="tab" href="index.html">Home</a>
-        <a class="tab" href="projects.html">Projects</a>
-        <a class="tab" href="about.html">About</a>
-        <a class="tab" href="contact.html">Contact</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Modular Navbar -->
+  <div id="site-nav"></div>
 
   <header class="header">
     <h1>Projects</h1>
@@ -54,7 +46,6 @@
         </div>
       </article>
 
-      <!-- Example extra slots -->
       <article class="card">
         <img src="media/asset-pipeline.png" alt="Asset pipeline">
         <div class="card-body">
@@ -84,13 +75,10 @@
     </section>
   </main>
 
-  <footer class="footer">© <span id="y"></span> Sahil Puri</footer>
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-    const here = location.pathname.split('/').pop();
-    [...document.querySelectorAll('.tab')].forEach(a=>{
-      if (a.getAttribute('href') === (here || 'index.html')) a.classList.add('active');
-    });
-  </script>
+  <!-- Modular Footer -->
+  <div id="site-footer"></div>
+
+  <!-- Loads nav/footer + sets active tab -->
+  <script src="js/include.js"></script>
 </body>
 </html>

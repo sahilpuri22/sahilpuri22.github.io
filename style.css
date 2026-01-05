@@ -21,6 +21,9 @@ body{
   background:var(--bg);
   color:var(--text-soft);
   line-height:1.6;
+
+  /* REQUIRED: prevent content hiding under fixed navbar */
+  padding-top:56px;
 }
 
 a{
@@ -31,11 +34,11 @@ a:hover{
   color:var(--carbon-black);
 }
 
-/* Top nav */
+/* Top nav (IDENTICAL everywhere) */
 .nav{
-  position:sticky;
-  top:0;
-  z-index:50;
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:10;
   background:rgba(255,255,255,0.9);
   backdrop-filter:blur(10px);
   border-bottom:1px solid #e0e0e0;
@@ -43,37 +46,41 @@ a:hover{
 .nav-inner{
   max-width:1100px;
   margin:0 auto;
-  padding:14px 20px;
+  padding:12px 16px;
   display:flex;
+  gap:16px;
   align-items:center;
-  gap:22px;
-  flex-wrap:wrap;
 }
+
 .brand{
   font-weight:700;
-  letter-spacing:.3px;
   color:var(--carbon-black);
+  text-decoration:none;
 }
+
 .tabs{
-  display:flex;
-  gap:14px;
   margin-left:auto;
-  flex-wrap:wrap;
+  display:flex;
+  gap:10px;
 }
+
 .tab{
-  padding:8px 12px;
+  color:#333333;
+  text-decoration:none;
+  padding:6px 10px;
   border-radius:8px;
-  color:var(--text-soft);
   border:1px solid transparent;
 }
+
 .tab:hover{
   background:var(--porcelain);
   border-color:var(--beige);
 }
+
 .tab.active{
-  background:var(--palm-leaf);
-  border-color:var(--palm-leaf);
-  color:#ffffff;
+  background:var(--porcelain);
+  border-color:var(--beige);
+  color:#333333;
 }
 
 /* Header / hero */
@@ -147,4 +154,155 @@ a:hover{
   text-align:center;
   padding:26px;
   border-top:1px solid #e0e0e0;
+}
+
+/* ======================= */
+/* Viewer info badge       */
+/* ======================= */
+
+#stage{
+  position:relative; /* anchor badge to viewer */
+}
+
+.viewer-info{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  z-index:5;
+
+  width:28px;
+  height:28px;
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(137,152,120,0.4);
+
+  font-size:14px;
+  cursor:default;
+  user-select:none;
+}
+
+.viewer-info-tooltip{
+  position:absolute;
+  right:0;
+  bottom:38px;
+
+  min-width:200px;
+  padding:10px 12px;
+
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(137,152,120,0.35);
+  border-radius:12px;
+
+  font-size:12px;
+  line-height:1.4;
+  color:#333;
+
+  box-shadow:0 10px 30px rgba(0,0,0,0.18);
+
+  opacity:0;
+  transform:translateY(4px);
+  pointer-events:none;
+  transition:opacity .15s ease, transform .15s ease;
+}
+
+.viewer-info-tooltip strong{
+  color:#222725;
+  font-weight:600;
+}
+
+.viewer-info-tooltip span{
+  color:#555;
+  font-size:11px;
+}
+
+.viewer-info:hover .viewer-info-tooltip{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Small attribution above the settings panel */
+.viewer-attribution{
+  position: absolute;
+
+  /* Align with settings bar */
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Slightly higher than before */
+  bottom: 90px;
+
+  /* BELOW the settings panel in depth */
+  z-index: 5; /* settings is z-index: 6 */
+
+  font-size: 11px;
+  color: #555;
+  opacity: 0.85;
+
+  pointer-events: auto; /* never blocks interaction */
+  white-space: nowrap;
+}
+
+
+.viewer-attribution a{
+  color:var(--palm-leaf);
+  text-decoration:none;
+  font-weight:600;
+}
+.viewer-attribution a:hover{
+  text-decoration:underline;
+}
+
+/* About page two-column layout */
+.about-layout{
+  display:grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.about-photo{
+  position: sticky;
+  top: 84px; /* stays visible under your sticky nav */
+  align-self: start;
+}
+
+.about-photo img{
+  width: 100%;
+  height: auto;
+  display: block;
+
+  border-radius: 18px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.about-info{
+  min-width: 0;
+}
+
+.about-list{
+  margin: 0 0 18px;
+  padding-left: 18px;
+}
+
+/* Mobile: stack */
+@media (max-width: 900px){
+  .about-layout{
+    grid-template-columns: 1fr;
+  }
+  .about-photo{
+    position: static;
+  }
+  .about-photo img{
+    max-height: 520px;
+    object-fit: cover;
+    object-position: center;
+  }
 }

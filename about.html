@@ -1,51 +1,63 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>About | Sahil Puri</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <a class="brand" href="index.html">Sahil Puri</a>
-      <div class="tabs">
-        <a class="tab" href="index.html">Home</a>
-        <a class="tab" href="projects.html">Projects</a>
-        <a class="tab" href="about.html">About</a>
-        <a class="tab" href="contact.html">Contact</a>
-      </div>
-    </div>
-  </nav>
-
-  <header class="header">
-    <h1>About</h1>
-    <p>Graphics & gameplay engineer focused on real-time rendering and physics.</p>
-  </header>
+  <!-- Modular Navbar -->
+  <div id="site-nav"></div>
 
   <main class="container">
-    <h2 class="section-title">Bio</h2>
-    <p>
-      I build rendering tech (Vulkan/OpenGL), shader tooling, and gameplay systems.
-      Recent work: deferred renderer with SSAO/HBAO comparisons, Jolt-based vehicle dynamics,
-      asset baking pipelines, and performance profiling with ImGui overlays.
-    </p>
+    <section class="about-layout">
+      <!-- Left: big photo -->
+      <div class="about-photo">
+        <img src="assets/grad-pic.JPG" alt="Sahil Puri">
+      </div>
 
-    <h2 class="section-title">Skills</h2>
-    <ul>
-      <li>C++20, GLSL/HLSL, Python tooling</li>
-      <li>Vulkan (frame graph, G-buffer, post-processing)</li>
-      <li>Physics: Jolt VehicleConstraint, camera collision</li>
-      <li>Debug/UX: ImGui, profiling, CI</li>
-    </ul>
+      <!-- Right: info -->
+      <div class="about-info">
+        <h2 class="section-title">What I'm Doing Now</h2>
+        <p>
+          I currently work as a <strong>Technical Solutions &amp; Partnerships Lead</strong> at
+          <a href="https://www.fugumobile.com/" target="_blank" rel="noopener noreferrer">
+            Fugumobile
+          </a>, representing the company across the UK and Europe.
+          I partner with clients to translate business needs into software solutions—working closely
+          with engineering teams in China to scope, design, and deliver digital products from proposal
+          through implementation.
+        </p>
 
-    <h2 class="section-title">Talks & Writing</h2>
-    <ul>
-      <li>EASI-Tex reading group: image-conditioned texturing (IP-Adapter/ControlNet)</li>
-    </ul>
+        <h2 class="section-title">About Me</h2>
+        <p>
+          I was born in Jakarta and grew up in Shanghai before moving to the UK for university, an experience that shaped a global perspective and a high level of
+           adaptability from an early age. Being exposed to different cultures, education systems, and ways of thinking encouraged independence, curiosity, and
+           clear communication — qualities that now influence how I approach complex technical problems and collaborative engineering work.
+        </p>
+        <p>
+          I studied Computer Science with High Performance Graphics and Games Engineering at the University of Leeds (BSc/MEng), where I focused on real-time 
+          rendering, low-level graphics programming, and performance-critical systems. My interests lie in graphics pipelines, engine 
+          architecture, and game development with an emphasis on understanding systems from first principles rather than treating them as black boxes.
+        </p>
+
+        <h2 class="section-title">Skills</h2>
+        <ul class="about-list">
+          <li>C++20, GLSL/HLSL, Python tooling</li>
+          <li>Vulkan (frame graph, G-buffer, post-processing)</li>
+          <li>Physics: Jolt VehicleConstraint, camera collision</li>
+          <li>Debug/UX: ImGui, profiling, CI</li>
+        </ul>
+
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">© <span id="y"></span> Sahil Puri</footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+  <!-- Modular Footer -->
+  <div id="site-footer"></div>
+
+  <!-- Loads components/nav.html + components/footer.html and sets active tab -->
+  <script src="js/include.js"></script>
 </body>
 </html>
