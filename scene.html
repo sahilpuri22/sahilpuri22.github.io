@@ -105,25 +105,15 @@ html,body{
     justify-content:center;
     border-bottom:1px solid rgba(137,152,120,0.35);
   }
-  .bio-photo-inner{
-    width:140px;
-    height:140px;
-    border-radius:50%;
-    background:
-      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0.2)),
-      linear-gradient(135deg, rgba(137,152,120,0.8), rgba(228,230,195,0.7));
-    box-shadow:0 10px 25px rgba(0,0,0,0.18);
-    position:relative;
-    overflow:hidden;
-  }
-  .bio-photo-inner::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 55%);
-    mix-blend-mode:screen;
-    pointer-events:none;
-  }
+.bio-photo-inner{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background: linear-gradient(135deg, rgba(137,152,120,0.8), rgba(228,230,195,0.7));
+  box-shadow:0 10px 25px rgba(0,0,0,0.18);
+  position:relative;
+  overflow:hidden;
+}
   .bio-photo-inner img{
     width:100%;
     height:100%;
@@ -200,6 +190,9 @@ html,body{
     overflow:hidden;
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   .project-photo img{
     width:100%;
@@ -208,12 +201,7 @@ html,body{
     display:block;
   }
   .project-photo::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:radial-gradient(circle at 20% 15%, rgba(255,255,255,0.55), transparent 55%);
-    mix-blend-mode:screen;
-    pointer-events:none;
+    display: none;
   }
 
   .project-content{
@@ -779,7 +767,7 @@ html,body{
   <div class="bio-panel">
     <div class="bio-photo">
       <div class="bio-photo-inner">
-        <!-- Optional: <img src="media/portrait.jpg" alt="Sahil"> -->
+        <img src="assets/profile_pic.jpg" alt="Profile Pic">
       </div>
     </div>
     <div class="bio-content">
@@ -1108,17 +1096,17 @@ html,body{
         {
           title: "Vulkan PBR Renderer",
           text: "Deferred renderer with physically based shading, image-based lighting, and SSAO/HBAO experiments.",
-          gradient: "linear-gradient(135deg, rgba(137,152,120,0.7), rgba(228,230,195,0.5))"
+          image: "assets/projects/raytracer.gif"
         },
         {
           title: "Jolt Vehicle Sandbox",
           text: "Custom vehicle physics sandbox integrating Jolt with a bespoke entity-component system and debug tooling.",
-          gradient: "linear-gradient(135deg, rgba(34,39,37,0.8), rgba(137,152,120,0.6))"
+          image: "assets/projects/animation_collision.gif"
         },
         {
           title: "OpenGL AO Playground",
           text: "Screen-space ambient occlusion playground comparing kernels, noise patterns, and reconstruction strategies.",
-          gradient: "linear-gradient(135deg, rgba(228,230,195,0.7), rgba(137,152,120,0.6))"
+          image: "assets/projects/bezier_curve.gif"
         }
       ];
 
@@ -1129,7 +1117,7 @@ html,body{
         const p = projects[index];
         titleEl.textContent = p.title;
         textEl.textContent  = p.text;
-        photoEl.style.backgroundImage = p.gradient;
+        photoEl.style.backgroundImage = p.image ? `url("${p.image}")` : "";
 
         // dots
         Array.from(dotsEl.children).forEach((dot, i)=>{
