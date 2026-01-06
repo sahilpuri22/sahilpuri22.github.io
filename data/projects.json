@@ -1,0 +1,52 @@
+{
+  "projects": [
+    {
+      "slug": "vulkan-engine",
+      "title": "Vulkan Engine",
+      "thumb": "media/vulkan-engine.gif",
+      "hero": "media/vulkan-engine.gif",
+      "summary": "Deferred renderer (G-buffer), SSAO/HBAO, post-FX, ImGui tools.",
+      "body": [
+        "Built a Vulkan deferred renderer with a full G-buffer pipeline.",
+        "Implemented SSAO/HBAO experiments and post-processing passes.",
+        "Added ImGui tooling for profiling and debugging."
+      ],
+      "stack": ["C++", "Vulkan", "GLSL", "ImGui"],
+      "links": {
+        "repo": "https://github.com/sahilpuri22/vulkan-engine"
+      }
+    },
+    {
+      "slug": "vehicle-physics",
+      "title": "Vehicle Physics (Jolt)",
+      "thumb": "media/jolt-car.gif",
+      "hero": "media/jolt-car.gif",
+      "summary": "Jolt VehicleConstraint sandbox with wheel sync, chase cam, and tuning.",
+      "body": [
+        "Integrated Jolt VehicleConstraint into a custom ECS.",
+        "Synced visual wheel models to physics wheels reliably.",
+        "Built tuning/debug controls for handling and stability."
+      ],
+      "stack": ["C++", "Jolt", "Game Engine"],
+      "links": {
+        "repo": "https://github.com/sahilpuri22/vehicle-physics"
+      }
+    },
+    {
+      "slug": "ssao-vs-hbao",
+      "title": "SSAO vs HBAO Study",
+      "thumb": "media/ssao-vs-hbao.png",
+      "hero": "media/ssao-vs-hbao.png",
+      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "body": [
+        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
+        "Measured performance and artifact patterns across scenes.",
+        "Documented trade-offs and reconstruction strategies."
+      ],
+      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "links": {
+        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
+      }
+    }
+  ]
+}

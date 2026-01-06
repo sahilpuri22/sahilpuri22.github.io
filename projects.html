@@ -17,62 +17,9 @@
 
   <main class="container">
     <h2 class="section-title">All Projects</h2>
-    <section class="grid">
-      <!-- Add/duplicate cards as you like -->
-      <article class="card">
-        <img src="media/vulkan-engine.gif" alt="Vulkan Engine">
-        <div class="card-body">
-          <h3>Vulkan Engine</h3>
-          <p>Deferred renderer (G-buffer), SSAO/HBAO, post-FX, ImGui tools.</p>
-          <p><a href="https://github.com/sahilpuri22/vulkan-engine">Repo →</a></p>
-        </div>
-      </article>
 
-      <article class="card">
-        <img src="media/jolt-car.gif" alt="Vehicle Physics">
-        <div class="card-body">
-          <h3>Vehicle Physics (Jolt)</h3>
-          <p>Drift model, chase camera collision, boost behavior.</p>
-          <p><a href="https://github.com/sahilpuri22/vehicle-physics">Repo →</a></p>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="media/ssao-vs-hbao.png" alt="SSAO vs HBAO Study">
-        <div class="card-body">
-          <h3>SSAO vs HBAO Study</h3>
-          <p>Quality/perf comparison incl. Alchemy SSAO; side-by-side toggle.</p>
-          <p><a href="https://github.com/sahilpuri22/ssao-hbao-study">Repo →</a></p>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="media/asset-pipeline.png" alt="Asset pipeline">
-        <div class="card-body">
-          <h3>Asset Baking Tool</h3>
-          <p>OBJ→baked format, texture packaging, CLI pipeline.</p>
-          <p><a href="https://github.com/sahilpuri22/asset-pipeline">Repo →</a></p>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="media/shader-gallery.png" alt="Shader gallery">
-        <div class="card-body">
-          <h3>Shader Gallery</h3>
-          <p>GLSL snippets with visual results and notes.</p>
-          <p><a href="https://github.com/sahilpuri22/shader-gallery">Repo →</a></p>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="media/gmtk-game.gif" alt="GMTK game">
-        <div class="card-body">
-          <h3>GMTK Jam: Crash Landing</h3>
-          <p>Small polished game; systems + visuals + performance passes.</p>
-          <p><a href="https://itch.io">itch.io →</a></p>
-        </div>
-      </article>
-    </section>
+    <!-- Populated by js/projects.js from data/projects.json -->
+    <section class="grid" id="projects-grid"></section>
   </main>
 
   <!-- Modular Footer -->
@@ -80,5 +27,8 @@
 
   <!-- Loads nav/footer + sets active tab -->
   <script src="js/include.js"></script>
+
+  <!-- Renders project cards from JSON -->
+  <script src="js/projects.js"></script>
 </body>
 </html>

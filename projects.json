@@ -1,0 +1,19 @@
+{
+  "projects": [
+    {
+      "slug": "vulkan-engine",
+      "title": "Vulkan Engine",
+      "hero": "media/projects/vulkan-engine.jpg",
+      "summary": "Deferred renderer with SSAO/HBAO and post-processing.",
+      "body": [
+        "Built a Vulkan-based deferred renderer with a full G-buffer pipeline.",
+        "Implemented SSAO, HBAO, and Alchemy AO comparisons.",
+        "Integrated ImGui for profiling and debug tooling."
+      ],
+      "stack": ["C++", "Vulkan", "GLSL"],
+      "links": {
+        "repo": "https://github.com/..."
+      }
+    }
+  ]
+}
