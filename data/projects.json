@@ -48,6 +48,70 @@
       "links": {
         "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
       }
+    },
+    {
+      "slug": "vulkan-renderer",
+      "title": "Vulkan Renderer",
+      "thumb": "assets/projects/bezier_curve.gif",
+      "hero": "assets/projects/bezier_curve.gif",
+      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "body": [
+        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
+        "Measured performance and artifact patterns across scenes.",
+        "Documented trade-offs and reconstruction strategies."
+      ],
+      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "links": {
+        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
+      }
+    },
+    {
+      "slug": "crash-landing",
+      "title": "Crash Landing - GMTK24' Game Jam Entry",
+      "thumb": "assets/projects/crash-landing.gif",
+      "hero": "assets/projects/crash-landing.gif",
+      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "body": [
+        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
+        "Measured performance and artifact patterns across scenes.",
+        "Documented trade-offs and reconstruction strategies."
+      ],
+      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "links": {
+        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
+      }
+    },
+    {
+      "slug": "bezier-curves",
+      "title": "Bezier Curves and Patches Visualisation",
+      "thumb": "assets/projects/bezier_curve.gif",
+      "hero": "assets/projects/bezier_curve.gif",
+      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "body": [
+        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
+        "Measured performance and artifact patterns across scenes.",
+        "Documented trade-offs and reconstruction strategies."
+      ],
+      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "links": {
+        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
+      }
+    },
+    {
+      "slug": "animation-cycles",
+      "title": "Model Animation and Collisions",
+      "thumb": "assets/projects/animation_collision.gif",
+      "hero": "assets/projects/animation_collision.gif",
+      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "body": [
+        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
+        "Measured performance and artifact patterns across scenes.",
+        "Documented trade-offs and reconstruction strategies."
+      ],
+      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "links": {
+        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
+      }
     }
   ]
 }
