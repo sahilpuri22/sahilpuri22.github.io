@@ -86,12 +86,12 @@ a:hover{
 /* Header / hero */
 .header{
   text-align:center;
-  padding:56px 20px;
+  padding:46px 20px;
   background:var(--porcelain);
 }
 .header h1{
   margin:0 0 8px;
-  font-size:2.4rem;
+  font-size:2.2rem;
   color:var(--carbon-black);
 }
 .header p{

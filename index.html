@@ -147,6 +147,38 @@ html,body{
     line-height:1.6;
     color:#333333;
   }
+  .bio-links{
+    display:flex;
+    gap:10px;
+    margin:4px 0 16px;
+  }
+  .icon-link{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(137,152,120,0.12);
+    border:1px solid rgba(137,152,120,0.25);
+    color:var(--carbon-black);
+    text-decoration:none;
+    transition:transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+  }
+  .icon-link svg{
+    width:18px;
+    height:18px;
+    stroke:currentColor;
+  }
+  .icon-link:hover{
+    background:var(--porcelain);
+    border-color:var(--beige);
+    transform:translateY(-1px);
+  }
+  .icon-link:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(137,152,120,0.35);
+  }
 
   /* Right project panel – same language as bio, mirrored */
   .project-panel{
@@ -207,21 +239,49 @@ html,body{
   }
 
   .project-content{
-    padding:16px 18px 10px;
+    padding:8px 18px 12px;
     flex:1;
     overflow-y:auto;
   }
   .project-title{
-    margin:0 0 6px;
+    margin:0;
+    padding:12px 18px 0;
     font-size:16px;
     font-weight:600;
     color:var(--carbon-black);
+  }
+  .project-title a{
+    color:inherit;
+    text-decoration:none;
+  }
+  .project-title a:hover{
+    text-decoration:underline;
   }
   .project-text{
     margin:0;
     font-size:14px;
     line-height:1.6;
     color:#333333;
+  }
+  .project-body{
+    margin:10px 0 0;
+    padding-left:18px;
+    color:#333333;
+    font-size:13px;
+    line-height:1.55;
+  }
+  .project-body li{
+    margin:0 0 6px;
+  }
+  .project-cta{
+    display:inline-block;
+    margin-top:12px;
+    color:var(--palm-leaf);
+    text-decoration:none;
+    font-weight:600;
+  }
+  .project-cta:hover{
+    text-decoration:underline;
   }
 
   .project-dots{
@@ -765,20 +825,30 @@ html,body{
     <div class="bio-content">
       <h2>Sahil Puri</h2>
       <h3>Graphics &amp; Gameplay Engineer</h3>
+      <div class="bio-links">
+        <a class="icon-link" href="mailto:sahilpuri.5@gmail.com" aria-label="Email Sahil">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+            <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
+            <path d="m22 6-10 7L2 6"/>
+          </svg>
+        </a>
+        <a class="icon-link" href="https://github.com/sahilpuri22" target="_blank" rel="noopener" aria-label="Sahil on GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+        </a>
+        <a class="icon-link" href="https://www.linkedin.com/in/sahil-puri-90b13b228/" target="_blank" rel="noopener" aria-label="Sahil on LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+      </div>
 
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
-      </p>
-      <p>
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-        ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur.
-      </p>
-      <p>
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-        officia deserunt mollit anim id est laborum.
+        I currently work as a Technical Solutions & Partnerships Lead at <a href="https://www.fugumobile.com/" target="_blank" rel="noopener">Fugumobile</a>, representing the company across the UK and Europe. I’ve recently graduated from the University of Leeds where I studied Computer Science with High-Performance Graphics and Games Engineering (BSc, Meng).
+        While my main interests are in graphics programming, game development, and software engineering, I place strong value on staying open-minded and curious, and I enjoy exploring new domains and technical challenges.
       </p>
     </div>
   </div>
@@ -788,9 +858,11 @@ html,body{
     <div class="project-photo">
       <!-- Optional: <img> will go here -->
     </div>
+    <h3 class="project-title"><a href="#" class="project-title-link"></a></h3>
     <div class="project-content">
-      <h3 class="project-title"></h3>
       <p class="project-text"></p>
+      <ul class="project-body"></ul>
+      <a class="project-cta" href="#">View project →</a>
     </div>
     <div class="project-dots"></div>
   </div>
@@ -908,12 +980,8 @@ html,body{
         }`
     });
 
-    const matcap = texLoader.load("assets/matcap-gray.png");
-    matcap.colorSpace = THREE.SRGBColorSpace;
-
     const materials = {
       PBR: new THREE.MeshStandardMaterial({color:"#899878", metalness:0.25, roughness:0.45, envMapIntensity:1.35}),
-      Clay: new THREE.MeshMatcapMaterial({matcap}),
       "Surface Normals": normalVisMat,
       "UV Checker": new THREE.MeshBasicMaterial({map: uvChecker}),
       Topology: new THREE.MeshBasicMaterial({color:"#222725", wireframe:true, transparent:true, opacity:0.35})
@@ -974,7 +1042,7 @@ html,body{
     let currentMode = "PBR";
     function applyMaterial(mode){
       currentMode = mode;
-      const allowEnv = (mode === "PBR" || mode === "Clay");
+      const allowEnv = (mode === "PBR");
       scene.environment = allowEnv ? envMap : null;
       const useLights = (mode === "PBR");
       key.visible = fill.visible = rim.visible = useLights;
@@ -1008,7 +1076,7 @@ html,body{
       Roughness: materials.PBR.roughness
     };
 
-    gui.add(params, "Mode", ["PBR","Clay","Surface Normals","UV Checker","Topology"]).onChange(applyMaterial);
+    gui.add(params, "Mode", ["PBR","Surface Normals","UV Checker","Topology"]).onChange(applyMaterial);
     gui.add(params, "Auto Rotate");
     gui.add(params, "ToneMapping", ["ACES","Reinhard","Linear","None"]).onChange(v=>{
       renderer.toneMapping = ({
@@ -1091,34 +1159,38 @@ html,body{
     if (projectPanel){
       const photoEl = projectPanel.querySelector('.project-photo');
       const titleEl = projectPanel.querySelector('.project-title');
+      const titleLinkEl = projectPanel.querySelector('.project-title-link');
       const textEl  = projectPanel.querySelector('.project-text');
+      const bodyEl = projectPanel.querySelector('.project-body');
       const dotsEl  = projectPanel.querySelector('.project-dots');
-
-      const projects = [
-        {
-          title: "Vulkan PBR Renderer",
-          text: "Deferred renderer with physically based shading, image-based lighting, and SSAO/HBAO experiments.",
-          image: "assets/projects/raytracer.gif"
-        },
-        {
-          title: "Jolt Vehicle Sandbox",
-          text: "Custom vehicle physics sandbox integrating Jolt with a bespoke entity-component system and debug tooling.",
-          image: "assets/projects/animation_collision.gif"
-        },
-        {
-          title: "OpenGL AO Playground",
-          text: "Screen-space ambient occlusion playground comparing kernels, noise patterns, and reconstruction strategies.",
-          image: "assets/projects/bezier_curve.gif"
-        }
-      ];
+      const ctaEl = projectPanel.querySelector('.project-cta');
 
       let currentIndex = 0;
       let autoTimer = null;
+      let projects = [];
 
       function renderProject(index){
         const p = projects[index];
-        titleEl.textContent = p.title;
-        textEl.textContent  = p.text;
+        if (!p) return;
+        if (titleLinkEl){
+          titleLinkEl.textContent = p.title;
+          titleLinkEl.href = p.href || "#";
+        } else if (titleEl){
+          titleEl.textContent = p.title;
+        }
+        if (ctaEl){
+          ctaEl.href = p.href || "#";
+        }
+        textEl.textContent  = p.summary || "";
+        if (bodyEl){
+          bodyEl.innerHTML = "";
+          const items = Array.isArray(p.body) ? p.body.slice(0, 2) : [];
+          items.forEach((line)=>{
+            const li = document.createElement('li');
+            li.textContent = line;
+            bodyEl.appendChild(li);
+          });
+        }
         photoEl.style.backgroundImage = p.image ? `url("${p.image}")` : "";
 
         // dots
@@ -1128,30 +1200,51 @@ html,body{
       }
 
       function nextProject(){
+        if (!projects.length) return;
         currentIndex = (currentIndex + 1) % projects.length;
         renderProject(currentIndex);
       }
 
       function resetTimer(){
         if (autoTimer) clearInterval(autoTimer);
+        if (!projects.length) return;
         autoTimer = setInterval(nextProject, 7000); // 7s per project
       }
 
-      // Create dots
-      projects.forEach((p, i)=>{
-        const dot = document.createElement('button');
-        dot.type = "button";
-        dot.className = 'project-dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', ()=>{
-          currentIndex = i;
-          renderProject(currentIndex);
-          resetTimer();
-        });
-        dotsEl.appendChild(dot);
-      });
+      async function loadProjects(){
+        try{
+          const res = await fetch("data/projects.json");
+          const data = await res.json();
+          projects = (data.projects || []).slice(0, 3).map(p => ({
+            title: p.title,
+            summary: p.summary,
+            image: p.hero || p.thumb || "",
+            href: p.slug ? `project.html?slug=${encodeURIComponent(p.slug)}` : "#",
+            body: p.body
+          }));
+        } catch (e){
+          projects = [];
+        }
 
-      renderProject(currentIndex);
-      resetTimer();
+        dotsEl.innerHTML = "";
+        projects.forEach((p, i)=>{
+          const dot = document.createElement('button');
+          dot.type = "button";
+          dot.className = 'project-dot' + (i === 0 ? ' active' : '');
+          dot.addEventListener('click', ()=>{
+            currentIndex = i;
+            renderProject(currentIndex);
+            resetTimer();
+          });
+          dotsEl.appendChild(dot);
+        });
+
+        currentIndex = 0;
+        renderProject(currentIndex);
+        resetTimer();
+      }
+
+      loadProjects();
 
       // Optional: slight hover tilt on the project panel
       const baseRotYProj = -5;

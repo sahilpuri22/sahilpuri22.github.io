@@ -52,8 +52,8 @@
     {
       "slug": "vulkan-renderer",
       "title": "Vulkan Renderer",
-      "thumb": "assets/projects/bezier_curve.gif",
-      "hero": "assets/projects/bezier_curve.gif",
+      "thumb": "assets/projects/vulkan-renderer.gif",
+      "hero": "assets/projects/vulkan-renderer.gif",
       "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
       "body": [
         "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
