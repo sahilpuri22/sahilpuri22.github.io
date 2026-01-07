@@ -5,6 +5,7 @@
   const titleEl = document.getElementById("project-title");
   const summaryEl = document.getElementById("project-summary");
   const heroEl = document.getElementById("project-hero");
+  const mediaEl = document.getElementById("project-media");
   const bodyEl = document.getElementById("project-body");
   const stackEl = document.getElementById("project-stack");
   const linksEl = document.getElementById("project-links");
@@ -32,6 +33,34 @@
 
   heroEl.src = p.hero || p.thumb || "";
   heroEl.alt = p.title;
+
+    if (mediaEl) {
+    if (p.youtube) {
+        const url = new URL(p.youtube);
+        const id =
+        url.searchParams.get("v") ||
+        (url.hostname.includes("youtu.be") ? url.pathname.slice(1) : "");
+
+        mediaEl.innerHTML = id ? `
+        <div class="project-video" style="margin:16px 0;">
+            <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid #e0e0e0;background:#000;">
+            <iframe
+                src="https://www.youtube-nocookie.com/embed/${id}"
+                title="${p.title} video"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                style="position:absolute;inset:0;width:100%;height:100%;"
+            ></iframe>
+            </div>
+        </div>
+        ` : "";
+    } else {
+        mediaEl.innerHTML = "";
+    }
+    }
+
+
 
   bodyEl.innerHTML = "";
   (p.body || []).forEach(text => {

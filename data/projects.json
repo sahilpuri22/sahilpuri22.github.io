@@ -2,10 +2,11 @@
   "projects": [
     {
       "slug": "vulkan-engine",
-      "title": "Vulkan Engine",
-      "thumb": "media/vulkan-engine.gif",
-      "hero": "media/vulkan-engine.gif",
+      "title": "Award-Winning Fully Featured Custom Game Engine",
+      "thumb": "assets/projects/engine.gif",
+      "hero": "assets/projects/engine.gif",
       "summary": "Deferred renderer (G-buffer), SSAO/HBAO, post-FX, ImGui tools.",
+      "youtube": "https://www.youtube.com/watch?v=Nu4_wkC4u6k",
       "body": [
         "Built a Vulkan deferred renderer with a full G-buffer pipeline.",
         "Implemented SSAO/HBAO experiments and post-processing passes.",
@@ -13,14 +14,14 @@
       ],
       "stack": ["C++", "Vulkan", "GLSL", "ImGui"],
       "links": {
-        "repo": "https://github.com/sahilpuri22/vulkan-engine"
+        "repo": "https://github.com/trizyal/ubiquitous-reality"
       }
     },
     {
-      "slug": "vehicle-physics",
-      "title": "Vehicle Physics (Jolt)",
-      "thumb": "media/jolt-car.gif",
-      "hero": "media/jolt-car.gif",
+      "slug": "opengl-raytracer",
+      "title": "OpenGL Raytracer",
+      "thumb": "assets/projects/raytracer.gif",
+      "hero": "assets/projects/raytracer.gif",
       "summary": "Jolt VehicleConstraint sandbox with wheel sync, chase cam, and tuning.",
       "body": [
         "Integrated Jolt VehicleConstraint into a custom ECS.",
@@ -33,10 +34,10 @@
       }
     },
     {
-      "slug": "ssao-vs-hbao",
-      "title": "SSAO vs HBAO Study",
-      "thumb": "media/ssao-vs-hbao.png",
-      "hero": "media/ssao-vs-hbao.png",
+      "slug": "ambient-occlusion",
+      "title": "Ambient Occlusion Implementations and Comparisons",
+      "thumb": "assets/projects/ambient.gif",
+      "hero": "assets/projects/ambient.gif",
       "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
       "body": [
         "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
