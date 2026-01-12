@@ -9,6 +9,7 @@
   const bodyEl = document.getElementById("project-body");
   const stackEl = document.getElementById("project-stack");
   const linksEl = document.getElementById("project-links");
+  const linksSectionEl = document.getElementById("project-links-section");
 
   if (!slug) {
     titleEl.textContent = "Project not found";
@@ -77,9 +78,34 @@
   });
 
   const links = [];
-  if (p.links?.repo) links.push(`<a href="${p.links.repo}" target="_blank" rel="noopener">Repo →</a>`);
-  if (p.links?.demo) links.push(`<a href="${p.links.demo}" target="_blank" rel="noopener">Demo →</a>`);
-  if (p.links?.paper) links.push(`<a href="${p.links.paper}" target="_blank" rel="noopener">Write-up →</a>`);
+  const pushLink = (label, url) => {
+    if (!label || !url) return;
+    links.push(`<a href="${url}" target="_blank" rel="noopener">${label} →</a>`);
+  };
 
-  linksEl.innerHTML = links.length ? links.join(" &nbsp; ") : "—";
+  if (Array.isArray(p.links)) {
+    p.links.forEach(item => pushLink(item?.label, item?.url));
+  } else if (Array.isArray(p.links?.items)) {
+    p.links.items.forEach(item => pushLink(item?.label, item?.url));
+  } else {
+    const addFromValue = (label, value) => {
+      if (!value) return;
+      if (typeof value === "string") {
+        pushLink(label, value);
+      } else {
+        pushLink(value.label || label, value.url);
+      }
+    };
+    addFromValue("Repo", p.links?.repo);
+    addFromValue("Demo", p.links?.demo);
+    addFromValue("Write-up", p.links?.paper);
+  }
+
+  if (links.length) {
+    linksEl.innerHTML = links.join(" &nbsp; ");
+    if (linksSectionEl) linksSectionEl.style.display = "";
+  } else {
+    linksEl.innerHTML = "";
+    if (linksSectionEl) linksSectionEl.style.display = "none";
+  }
 })();

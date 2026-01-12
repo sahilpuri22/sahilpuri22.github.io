@@ -39,9 +39,11 @@
         "GPU & CPU Profiling",
         "Team-Based Development"
       ],
-      "links": {
-        "repo": "https://github.com/trizyal/ubiquitous-reality"
-      }
+      "links": [
+        {"label": "GitHub", "url": "https://github.com/trizyal/ubiquitous-reality"},
+        {"label": "Report", "url": "assets/COMP5531M_GroupReport%20(6).pdf"},
+        {"label": "Poster", "url": "assets/UBQR%20POSTER.png"}
+      ]
     },
     {
       "slug": "raytracer",
@@ -100,10 +102,9 @@
         "Shader Programming",
         "GPU Profiling"
       ],
-
-      "links": {
-        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
-      }
+      "links": [
+        {"label": "Report", "url": "assets/sahilpuri-year3diss.pdf"}
+      ]
     },
     {
       "slug": "vulkan-renderer",
@@ -132,10 +133,7 @@
         "Render-to-Texture Post Processing",
         "First-Person Camera Controls",
         "GPU Debug Visualization"
-      ],
-      "links": {
-        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
-      }
+      ]
     },
     {
       "slug": "crash-landing",
@@ -154,9 +152,9 @@
 ],
 
       "stack": ["Unity", "C#", "Unity Version Control", "Unity Animation", "Shaders", "Physics-Based Gameplay", "Rapid Prototyping"],
-      "links": {
-        "repo": "https://bartsoluch.itch.io/crashlanding"
-      }
+      "links": [
+        {"label": "Itch.io Page", "url": "https://bartsoluch.itch.io/crashlanding"}
+      ]
     },
     {
       "slug": "bezier-curves",
@@ -182,10 +180,7 @@
         "de Casteljau Algorithm",
         "Bézier Curves & Patches",
         "Framebuffer Rendering"
-      ],
-      "links": {
-        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
-      }
+      ]
     },
     {
       "slug": "animation-cycles",
@@ -215,10 +210,7 @@
         "Impulse-Based Collision Response",
         "Terrain Height Queries",
         "Rigid Body Dynamics"
-      ],
-      "links": {
-        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
-      }
+      ]
     }
   ]
 }
