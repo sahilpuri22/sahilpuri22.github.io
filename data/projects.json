@@ -5,62 +5,134 @@
       "title": "Award-Winning Fully Featured Custom Game Engine",
       "thumb": "assets/projects/engine.gif",
       "hero": "assets/projects/engine.gif",
-      "summary": "Deferred renderer (G-buffer), SSAO/HBAO, post-FX, ImGui tools.",
+      "summary": "A team-developed C++ game engine featuring a modular ECS architecture, Vulkan-based stylised renderer, integrated vehicle physics, and custom tooling, culminating in a shipped cyberpunk vehicle game.",
       "youtube": "https://www.youtube.com/watch?v=Nu4_wkC4u6k",
       "body": [
-        "Built a Vulkan deferred renderer with a full G-buffer pipeline.",
-        "Implemented SSAO/HBAO experiments and post-processing passes.",
-        "Added ImGui tooling for profiling and debugging."
+        "Ubiquitous Reality (UBQR) is a custom C++ game engine developed as a team project to support stylised rendering, vehicle-based gameplay, and large-scale dynamic scenes. The aim was to design a specialised engine focused on performance, artistic control, and rapid iteration for non-photorealistic vehicular games, avoiding the overheads of general-purpose engines.",
+
+        "At the core of the engine is a custom entity–component system (ECS) using a pure-component model. Entities, referred to as GameWares, are composed of modular components stored in dedicated component spaces. This architecture enables flexible scene composition, efficient data access, reusable prefabs via a recipe system, and an integrated pooling system for high-frequency object spawning — essential for gameplay with large numbers of dynamic entities.",
+
+        "The engine features a Vulkan-based multi-pass rendering pipeline supporting physically-based shading, shadow mapping, and a suite of stylised post-processing effects. A modular render-pass structure allows object-specific shaders to be applied selectively, enabling hybrid scenes that combine realistic PBR materials with expressive non-photorealistic shading. Real-time visual effects include toon shading, posterisation, bloom, chromatic aberration, and energy-style lighting inspired by arcade and bullet-hell aesthetics.",
+
+        "To support vehicle-driven gameplay, the engine integrates the Jolt Physics library for rigid body simulation, collision detection, and constraint-based vehicle dynamics. Suspension, steering, friction, and wheel behaviour are simulated using Jolt’s vehicle system, while rendered wheels remain synchronised with physical simulation through automated model-based setup.",
+
+        "Additional engine systems include a custom event-handling framework for decoupled system communication, an input system supporting keyboard, mouse, and controllers with runtime remapping, a Dear ImGui-based debug interface for live inspection and tuning, and a SoLoud-powered 3D audio system for spatial sound and music playback.",
+
+        "The engine was validated through the development of a complete game, *Axiom Swerve*, a cyberpunk-inspired vehicle action experience. The game demonstrates the engine’s ECS architecture, stylised rendering pipeline, physics-driven vehicle controller, UI systems, and runtime tooling, resulting in a fully playable and visually distinctive interactive experience.",
+
+        "This project provided extensive experience in full-stack game engine development, Vulkan rendering architecture, real-time stylised graphics, physics integration, ECS-based design, performance optimisation, debugging tooling, and collaborative software engineering within a multi-disciplinary team."
       ],
-      "stack": ["C++", "Vulkan", "GLSL", "ImGui"],
+      "stack": [  "C++",
+        "Vulkan",
+        "GLSL",
+        "Custom Entity–Component System",
+        "Multi-Pass Rendering",
+        "Physically-Based Shading (PBR)",
+        "Stylised Post-Processing",
+        "Shadow Mapping",
+        "Descriptor Sets & Pipeline Layouts",
+        "Jolt Physics",
+        "Vehicle Physics & Suspension",
+        "Dear ImGui Tooling",
+        "SoLoud Audio",
+        "Game Engine Architecture",
+        "GPU & CPU Profiling",
+        "Team-Based Development"
+      ],
       "links": {
         "repo": "https://github.com/trizyal/ubiquitous-reality"
       }
     },
     {
-      "slug": "opengl-raytracer",
-      "title": "OpenGL Raytracer",
+      "slug": "raytracer",
+      "title": "CPU Raytracer Implementation",
       "thumb": "assets/projects/raytracer.gif",
       "hero": "assets/projects/raytracer.gif",
-      "summary": "Jolt VehicleConstraint sandbox with wheel sync, chase cam, and tuning.",
+      "summary": "Built a CPU-based raytracer in C++ implementing ray casting, triangle intersections, Blinn-Phong shading, hard shadows, and recursive reflections.",
       "body": [
-        "Integrated Jolt VehicleConstraint into a custom ECS.",
-        "Synced visual wheel models to physics wheels reliably.",
-        "Built tuning/debug controls for handling and stability."
-      ],
-      "stack": ["C++", "Jolt", "Game Engine"],
-      "links": {
-        "repo": "https://github.com/sahilpuri22/vehicle-physics"
-      }
+          "I implemented a CPU-based raytracer from scratch in C++. Starting from a minimal framework, I progressively built a complete raytracing pipeline capable of rendering 3D scenes with Phong shading, hard shadows, and reflective surfaces.",
+
+          "The project involved implementing core raytracing components, including camera ray generation, geometric ray–triangle intersection tests, and barycentric interpolation to compute per-pixel surface normals. I then added Blinn-Phong lighting with multiple light sources, followed by shadow ray casting to produce hard shadows.",
+
+          "Finally, I implemented recursive reflection rays, enabling mirror-like surfaces using energy-conserving material blending. A supporting OpenGL preview window allowed interactive camera and object manipulation, making it possible to validate raytraced results against a real-time rasterized reference view.",
+
+          "This project gave me hands-on experience in implementing a full raytracing pipeline from first principles, geometric reasoning for ray–triangle intersections, per-pixel shading with interpolated attributes, shadow computation, recursive ray evaluation for reflective materials, and debugging rendering algorithms using a rasterization reference."
+        ],
+      "stack": [
+        "C++",
+        "CPU Raytracing",
+        "OpenGL Preview Framework",
+        "GLSL",
+        "Blinn-Phong Shading",
+        "Shadow Ray Casting",
+        "Recursive Reflections",
+        "Barycentric Interpolation"
+      ]
+      
     },
     {
       "slug": "ambient-occlusion",
-      "title": "Ambient Occlusion Implementations and Comparisons",
+      "title": "Comparative Study of Screen-Space Ambient Occlusion",
       "thumb": "assets/projects/ambient.gif",
       "hero": "assets/projects/ambient.gif",
-      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
-      "body": [
-        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
-        "Measured performance and artifact patterns across scenes.",
-        "Documented trade-offs and reconstruction strategies."
+      "summary": "Implemented and benchmarked real-time ambient occlusion techniques (SSAO, HBAO, and Alchemy SSAO) in a custom OpenGL renderer to evaluate visual quality and performance trade-offs.",
+     "body": [
+        "For my undergraduate dissertation, I conducted a comparative study of real-time screen-space ambient occlusion (AO) techniques, implementing and evaluating StarCraft II SSAO, NVIDIA HBAO, and Alchemy SSAO inside a custom graphics application.",
+
+        "I built a C++ OpenGL renderer using a deferred shading pipeline, generating G-buffers for positions, normals, and albedo data to support screen-space AO calculations. Each AO technique was implemented as its own shader pass integrated between the geometry and lighting stages. The application included a GUI for live parameter tuning, preset camera viewpoints, and an automated testing system to measure frame rate and capture visual results under consistent conditions.",
+
+        "Using the Crytek Sponza scene as a benchmark environment, I compared each method’s visual quality, artifact behavior, and performance impact. Results showed HBAO achieving the highest frame rates, while Alchemy SSAO provided the strongest visual enhancement and artist-friendly tunable parameters, highlighting real-world trade-offs between performance and fidelity.",
+
+        "This project gave me hands-on experience in real-time rendering pipeline design, deferred shading and G-buffer construction, GLSL shader programming, implementing research papers into working code, GPU performance profiling and benchmarking, debugging visual artifacts and numerical stability, and building interactive graphics tooling and test harnesses.",
+
+        "Overall, the project strengthened my understanding of modern real-time lighting techniques, GPU programming, and graphics research implementation."
       ],
-      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "stack": [
+        "C++",
+        "OpenGL",
+        "GLSL",
+        "Deferred Rendering",
+        "G-Buffer Pipeline",
+        "GLFW",
+        "GLM",
+        "Assimp",
+        "ImGui",
+        "Shader Programming",
+        "GPU Profiling"
+      ],
+
       "links": {
         "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
       }
     },
     {
       "slug": "vulkan-renderer",
-      "title": "Vulkan Renderer",
+      "title": "Vulkan Rasterization Renderer",
       "thumb": "assets/projects/vulkan-renderer.gif",
       "hero": "assets/projects/vulkan-renderer.gif",
-      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "summary": "Built a real-time Vulkan renderer featuring PBR shading, mipmapped texturing, debug visualization modes, and post-processing effects.",
       "body": [
-        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
-        "Measured performance and artifact patterns across scenes.",
-        "Documented trade-offs and reconstruction strategies."
+       "I built a real-time 3D renderer using the Vulkan API. Starting from a minimal framework, I implemented a complete rendering pipeline capable of loading and drawing a complex scene with physically-based shading, interactive camera controls, and modern GPU rendering techniques.",
+
+        "The project involved setting up core Vulkan infrastructure, including instance and device creation, swap chains, render passes, framebuffers, command buffers, and synchronization. I implemented a first-person camera system for navigating the scene and loaded a large baked 3D environment, rendering it using indexed meshes and mipmapped texture sampling.",
+
+        "To aid debugging and analysis, I added multiple visualization modes to inspect fragment properties, including mipmap level usage, fragment depth, and depth derivatives. This provided valuable insight into texture filtering behavior and depth precision across the scene.",
+
+        "I then implemented a physically-based shading model using a microfacet BRDF with Lambertian diffuse and specular reflections. Material properties such as roughness and metalness were passed through descriptor sets and evaluated per-fragment in GLSL. Additional features included alpha-masked geometry for foliage and a post-processing pipeline implementing a mosaic pixelation effect using render-to-texture passes.",
+
+        "This project gave me hands-on experience with Vulkan rendering architecture, descriptor set and pipeline management, GLSL shader programming, physically-based lighting models, GPU resource management, and debugging complex real-time rendering systems."
       ],
-      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "stack": ["C++",
+        "Vulkan",
+        "GLSL",
+        "Deferred / Multi-Pass Rendering",
+        "Physically-Based Shading (PBR)",
+        "Descriptor Sets & Pipeline Layouts",
+        "Mipmapped Texture Sampling",
+        "Render-to-Texture Post Processing",
+        "First-Person Camera Controls",
+        "GPU Debug Visualization"
+      ],
       "links": {
         "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
       }
@@ -70,45 +142,80 @@
       "title": "Crash Landing - GMTK24' Game Jam Entry",
       "thumb": "assets/projects/crash-landing.gif",
       "hero": "assets/projects/crash-landing.gif",
-      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "summary":"Developed and shipped a complete game in a four-day rapid development sprint for the GMTK 2024 Game Jam, under the theme \"Built to Scale.\"",
       "body": [
-        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
-        "Measured performance and artifact patterns across scenes.",
-        "Documented trade-offs and reconstruction strategies."
-      ],
-      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+        "In August 2024, I partnered with Bart Soluch to participate in the annual GMTK Game Jam. We had four days to design, implement, and polish a fully-fledged video game under the theme \"Built to Scale\".",
+  
+        "Our first task was to conceptualize a game that we could realistically create within four days while ensuring it was fun and fit the theme. We chose to develop in Unity, allowing us to collaborate efficiently using Unity’s version control tools. After brainstorming and prototyping ideas, we settled on creating a physics-based growth and consumption game inspired by Donut County and Katamari Damacy. The core mechanic revolved around jumping over objects and enemies to consume them, increasing the player’s size and jump height to access progressively larger obstacles. A UFO protagonist felt thematically fitting for this gameplay loop, and cows became the perfect targets.",
+  
+        "The remainder of the jam was spent building the game we envisioned. We began by programming the player controller and implementing the core consumption mechanic. Early playtesting revealed that while the mechanic worked, the gameplay lacked excitement. To address this, we introduced a jump-boost chain system: after successfully jumping over and consuming a cow, the player gained a temporary jump boost, enabling them to leap over even larger cows in quick succession. This created a satisfying reward loop, reinforced with a streak scoring system. Once the core gameplay felt solid, we focused on polishing, adding a retro-inspired visual style and atmospheric fog to enhance presentation.",
+  
+        "The Game Jam was a valuable experience that allowed us to go through the entire game development pipeline in an extremely agile environment. In just four days, we conceptualized, designed, implemented, tested, and refined a complete game. This required applying a wide range of skills, including gameplay programming, asset sourcing, UI design, collaborative version control, debugging, and final polish."
+],
+
+      "stack": ["Unity", "C#", "Unity Version Control", "Unity Animation", "Shaders", "Physics-Based Gameplay", "Rapid Prototyping"],
       "links": {
-        "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
+        "repo": "https://bartsoluch.itch.io/crashlanding"
       }
     },
     {
       "slug": "bezier-curves",
-      "title": "Bezier Curves and Patches Visualisation",
+      "title": "Software Rasterizer & Bézier Surface Renderer",
       "thumb": "assets/projects/bezier_curve.gif",
       "hero": "assets/projects/bezier_curve.gif",
-      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "summary": "Built a CPU-based graphics renderer implementing custom math libraries, software rasterization, interactive transformations, and Bézier curve and surface rendering.",
       "body": [
-        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
-        "Measured performance and artifact patterns across scenes.",
-        "Documented trade-offs and reconstruction strategies."
+        "I built a complete CPU-based graphics renderer from first principles. The project focused on implementing a custom mathematics library and a software rasterization pipeline capable of drawing and transforming 3D geometry without relying on GPU rendering APIs.",
+
+        "I began by implementing a mathematics library supporting vectors, points, and matrices, which was then used throughout the renderer. Using a provided framebuffer and SetPixel routine, I wrote parametric line-drawing algorithms to render coordinate axes and points manually in software. I then applied rotation, translation, and projection matrices retrieved from an interactive ArcBall controller, enabling real-time navigation between orthographic and perspective projections.",
+
+        "Building on this foundation, I rendered axial planes and a movable control net of points. I implemented the de Casteljau algorithm to draw Bézier curves along isoparametric directions, colouring points based on their (s, t) parameters. Finally, I extended this to render full Bézier tensor patches using a modified de Casteljau algorithm, producing smooth parametric surfaces entirely in software.",
+
+        "This project gave me hands-on experience in implementing core computer graphics algorithms from scratch, including transformation pipelines, projection mathematics, software rasterization, parametric curve and surface evaluation, and interactive rendering without hardware acceleration."
       ],
-      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "stack": ["C++",
+        "Custom Math Library",
+        "Software Rasterization",
+        "Matrix & Vector Transformations",
+        "ArcBall Camera Control",
+        "Line Drawing Algorithms",
+        "de Casteljau Algorithm",
+        "Bézier Curves & Patches",
+        "Framebuffer Rendering"
+      ],
       "links": {
         "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
       }
     },
     {
       "slug": "animation-cycles",
-      "title": "Model Animation and Collisions",
+      "title": "Character Animation & Physics Simulation",
       "thumb": "assets/projects/animation_collision.gif",
       "hero": "assets/projects/animation_collision.gif",
-      "summary": "Side-by-side quality/perf comparison including Alchemy SSAO.",
+      "summary": "Implemented skeletal animation from BVH motion data and a physics-based simulation of bouncing objects with collision detection and terrain interaction.",
       "body": [
-        "Compared SSAO, HBAO, and Alchemy SSAO using consistent camera presets.",
-        "Measured performance and artifact patterns across scenes.",
-        "Documented trade-offs and reconstruction strategies."
+        "I implemented both skeletal animation and real-time physics simulation in C++. The project focused on building animation systems from motion-capture data and simulating physically-based interactions between moving objects and a dynamic environment.",
+
+        "I began by rendering a hierarchical skeleton from BVH animation files, constructing joint transformations and drawing bones based on parent–child relationships. I then implemented animation playback using Euler-angle joint rotations, driving a running character cycle at a fixed frame rate. Additional logic was added to translate the character forward in world space and to blend smoothly between a rest pose and a running cycle for start–stop transitions.",
+
+        "Building on the animation system, I implemented a physics simulation of falling and bouncing objects under gravity. This included impulse-based collision response with adjustable elasticity, collision detection against uneven terrain, and hit detection between moving objects and the animated character. The terrain height queries were used to ensure correct ground interaction across multiple surface types.",
+
+        "Finally, I extended the simulation from simple spherical objects to rigid dodecahedra, adding rotational dynamics and vertex-based collision detection to produce arbitrary bounces. This resulted in a complete interactive scene combining character animation, real-time physics, and collision-driven event tracking.",
+
+        "This project gave me hands-on experience with skeletal animation systems, BVH motion data processing, hierarchical transformations, animation blending, real-time physics integration, collision detection, impulse-based dynamics, and interactive graphics programming."
       ],
-      "stack": ["OpenGL", "Shaders", "Rendering Research"],
+      "stack": [
+        "C++",
+        "OpenGL",
+        "BVH Animation",
+        "Skeletal Hierarchies",
+        "Euler-Angle Joint Animation",
+        "Animation Blending",
+        "Real-Time Physics Simulation",
+        "Impulse-Based Collision Response",
+        "Terrain Height Queries",
+        "Rigid Body Dynamics"
+      ],
       "links": {
         "repo": "https://github.com/sahilpuri22/ssao-hbao-study"
       }
