@@ -66,7 +66,11 @@
   bodyEl.innerHTML = "";
   (p.body || []).forEach(text => {
     const para = document.createElement("p");
-    para.textContent = text;
+    if (typeof text === "string" && text.includes("<")) {
+      para.innerHTML = text;
+    } else {
+      para.textContent = text;
+    }
     bodyEl.appendChild(para);
   });
 
